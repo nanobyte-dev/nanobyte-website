@@ -261,7 +261,7 @@
 	background: #454059;	
 }
 
-// hamburger
+/* hamburger - hidden by default, shown on mobile */
 #sidepanel_hamburger {
 	color: #eee;
 	display: none;

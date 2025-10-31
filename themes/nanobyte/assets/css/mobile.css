@@ -16,7 +16,7 @@
 
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 770px) {
 
 .wrapper .main {
 	margin-left: .5em;
@@ -28,23 +28,25 @@
 	width: 100% !important;
 	padding-top: 4rem !important;
 	background: #1e1a2d;
-	
+
 	position: fixed;
 	top: 0;
 	left: -100%;
 	height: 100%;
 	transition: left .5s;
+	z-index: 100;
+	overflow-y: auto;
 }
 
 #sidepanel_hamburger {
 	position: fixed;
 	top: 0;
 	left: 0;
-	display: block;
+	display: block !important;
 	margin: .75rem;
 	width: 2em;
 	height: 2em;
-	z-index: 1;
+	z-index: 101;
 }
 
 #sidepanel_hamburger svg {

@@ -18,7 +18,7 @@
 
 @media only screen and (max-width: 800px) {
 
-.dokuwiki .wrapper .main {
+.wrapper .main {
 	margin-left: .5em;
 	margin-right: .5em;
 }

@@ -1,0 +1,58 @@
+/**
+ * This file provides styles for the general layout structure.
+ *
+ * @author Anika Henke <anika@selfthinker.org>
+ */
+
+body {
+    margin: 0 auto;
+}
+
+#dokuwiki__site {
+}
+
+#dokuwiki__site > .site {
+}
+
+#dokuwiki__header {
+}
+#dokuwiki__header > .pad {
+}
+    #dokuwiki__header .headings {
+        float: left;
+    }
+    [dir=rtl] #dokuwiki__header .headings {
+        float: right;
+    }
+
+    #dokuwiki__header .tools {
+        float: right;
+        text-align: right;
+    }
+    [dir=rtl] #dokuwiki__header .tools {
+        float: left;
+        text-align: left;
+    }
+
+#dokuwiki__footer {
+    clear: both;
+}
+#dokuwiki__footer > .pad {
+}
+
+.container-row {
+	display: flex;
+	flex-flow: row nowrap;
+}
+.col-1 { flex-grow: 1; }
+.col-2 { flex-grow: 2; }
+.col-3 { flex-grow: 3; }
+.col-4 { flex-grow: 4; }
+.col-5 { flex-grow: 5; }
+.col-6 { flex-grow: 6; }
+.col-7 { flex-grow: 7; }
+.col-8 { flex-grow: 8; }
+.col-9 { flex-grow: 9; }
+.col-10 { flex-grow: 10; }
+.col-11 { flex-grow: 11; }
+.col-12 { flex-grow: 12; }

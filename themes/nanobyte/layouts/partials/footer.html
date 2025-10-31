@@ -1,0 +1,55 @@
+<footer id="dokuwiki__footer">
+
+    <div class="container">
+
+        <!-- Contact links -->
+        <nav id="footer_links" aria-labelledby="footer_links_heading">
+            <h3 id="footer_links_heading">Links</h3>
+
+            <div class="container-row">
+                <ul>
+                    <li><a href="{{ .Site.BaseURL }}">Home</a></li>
+                    <li><a href="/posts/">Blog</a></li>
+                    <li><a href="https://forum.nanobyte.dev">Forum</a></li>
+                    <li><a href="https://www.youtube.com/@nanobyte-dev">YouTube</a></li>
+                </ul>
+                <ul>
+                    <li><a href="https://discord.gg/xNrRVXtsgs">Discord</a></li>
+                    <li><a href="https://www.patreon.com/nanobyte">Patreon</a></li>
+                    <li><a href="https://github.com/nanobyte-dev/">GitHub</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Site tools -->
+        <nav id="dokuwiki__sitetools" aria-labelledby="dokuwiki__sitetools_heading">
+            <h3 id="dokuwiki__sitetools_heading">Site tools</h3>
+            <ul>
+                <li><a href="/sitemap/">Sitemap</a></li>
+                <li><a href="/search/">Search</a></li>
+            </ul>
+        </nav>
+
+        <!-- Other links -->
+        <nav id="footer_other" aria-labelledby="footer_other_heading">
+            <h3 id="footer_other_heading">Other</h3>
+            <ul>
+                <li><a href="/privacy/">Privacy policy</a></li>
+                <li><a href="/support/">Supporting us</a></li>
+                <li><a href="/index.xml">RSS feed</a></li>
+            </ul>
+        </nav>
+
+    </div>
+
+    <div class="doc">
+        {{ if .Lastmod }}
+        Last modified: {{ .Lastmod.Format "2006-01-02" }}
+        {{ end }}
+    </div>
+
+    {{ with .Site.Params.license }}
+    <div class="license">{{ . | markdownify }}</div>
+    {{ end }}
+
+</footer>

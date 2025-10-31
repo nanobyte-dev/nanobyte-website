@@ -1,0 +1,36 @@
+{{ define "main" }}
+<article>
+    <h1>{{ .Title }}</h1>
+
+    {{ if .Params.date }}
+    <div class="meta">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">
+            {{ .Date.Format "January 2, 2006" }}
+        </time>
+        {{ with .Params.tags }}
+        <div class="tags">
+            Tags:
+            {{ range . }}
+            <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a>
+            {{ end }}
+        </div>
+        {{ end }}
+    </div>
+    {{ end }}
+
+    <div class="content">
+        {{ .Content }}
+    </div>
+
+    {{ if or .PrevInSection .NextInSection }}
+    <nav class="pagination">
+        {{ with .PrevInSection }}
+        <a href="{{ .RelPermalink }}" class="prev">← {{ .Title }}</a>
+        {{ end }}
+        {{ with .NextInSection }}
+        <a href="{{ .RelPermalink }}" class="next">{{ .Title }} →</a>
+        {{ end }}
+    </nav>
+    {{ end }}
+</article>
+{{ end }}

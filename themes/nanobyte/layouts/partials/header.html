@@ -1,0 +1,24 @@
+<header id="dokuwiki__header">
+
+    <div class="nb_logo">
+        <a href="{{ .Site.BaseURL }}" id="dokuwiki__top" accesskey="h" title="Home">
+            <img src="/images/logo-top.svg" alt="{{ .Site.Title }}">
+        </a>
+    </div>
+
+    <nav class="nb_nav">
+        <ul>
+            <li><a href="{{ .Site.BaseURL }}">Home</a></li>
+            <li><a href="/posts/">Blog</a></li>
+            <li><a href="https://www.youtube.com/@nanobyte-dev">YouTube</a></li>
+            <li><a href="https://discord.gg/xNrRVXtsgs">Discord</a></li>
+        </ul>
+    </nav>
+
+    {{ if .Site.Params.showUserInfo }}
+    <div class="user_logged_in">
+        <!-- User info would go here if needed -->
+    </div>
+    {{ end }}
+
+</header>

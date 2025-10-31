@@ -1,0 +1,12 @@
+name = "Nanobyte"
+license = "GPL-2.0"
+licenselink = "https://www.gnu.org/licenses/gpl-2.0.html"
+description = "The Nanobyte site theme"
+homepage = "https://nanobyte.dev"
+tags = ["blog", "technical", "os-development"]
+features = ["responsive", "custom-fonts"]
+min_version = "0.112.0"
+
+[author]
+  name = "Tiberiu Chibici"
+  homepage = "https://nanobyte.dev"

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ if not .IsHome }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title>
+
+    {{ with .Description }}
+    <meta name="description" content="{{ . }}">
+    {{ end }}
+
+    {{ $cssBasic := resources.Get "css/basic.css" }}
+    {{ $cssStructure := resources.Get "css/structure.css" }}
+    {{ $cssDesign := resources.Get "css/design.css" }}
+    {{ $cssContent := resources.Get "css/content.css" }}
+    {{ $cssMobile := resources.Get "css/mobile.css" }}
+
+    <link rel="stylesheet" href="{{ $cssBasic.RelPermalink }}">
+    <link rel="stylesheet" href="{{ $cssStructure.RelPermalink }}">
+    <link rel="stylesheet" href="{{ $cssDesign.RelPermalink }}">
+    <link rel="stylesheet" href="{{ $cssContent.RelPermalink }}">
+    <link rel="stylesheet" href="{{ $cssMobile.RelPermalink }}" media="screen and (max-width: 768px)">
+
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+    {{ hugo.Generator }}
+</head>
+<body>
+    <div id="dokuwiki__site">
+        <div id="dokuwiki__top" class="site">
+
+            {{ partial "header.html" . }}
+
+            <div class="wrapper">
+
+                {{ partial "sidebar.html" . }}
+
+                <div class="main">
+                    <main id="dokuwiki__content">
+                        <div class="page">
+                            {{ block "main" . }}{{ end }}
+                            <div class="clearer"></div>
+                        </div>
+                    </main>
+                </div>
+
+            </div><!-- /wrapper -->
+
+            {{ partial "footer.html" . }}
+
+        </div>
+    </div><!-- /site -->
+</body>
+</html>

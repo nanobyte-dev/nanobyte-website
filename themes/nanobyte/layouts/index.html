@@ -1,0 +1,21 @@
+{{ define "main" }}
+<h1>{{ .Site.Title }}</h1>
+
+<div class="home-intro">
+    {{ .Content }}
+</div>
+
+<h2>Selected articles</h2>
+<ul class="selected-articles">
+    {{ range where .Site.RegularPages "Params.featured" true | first 5 }}
+    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    {{ end }}
+</ul>
+
+<h2>Latest videos</h2>
+<div class="youtube-feed">
+    <!-- YouTube RSS feed would be rendered here via shortcode or JS -->
+    <p>Subscribe to our <a href="https://www.youtube.com/@nanobyte-dev">YouTube channel</a>!</p>
+</div>
+
+{{ end }}

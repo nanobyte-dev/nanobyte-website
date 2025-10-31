@@ -1,0 +1,57 @@
+baseURL = 'https://nanobyte.dev/'
+languageCode = 'en-us'
+title = 'Nanobyte'
+theme = 'nanobyte'
+
+[pagination]
+pagerSize = 10
+
+# Enable Git info for last modified dates
+enableGitInfo = true
+
+[markup.goldmark.renderer]
+  # Allow raw HTML in markdown
+  unsafe = true
+
+[markup.highlight]
+  # Code highlighting
+  codeFences = true
+  guessSyntax = true
+  lineNos = true
+  lineNumbersInTable = true
+  noClasses = false
+  style = "monokai"
+
+[outputs]
+  home = ["HTML", "RSS"]
+  section = ["HTML", "RSS"]
+
+[outputFormats.RSS]
+  mediatype = "application/rss+xml"
+  baseName = "index"
+
+[params]
+  description = "A community of people who love technology, are passionate about learning the inner depths of how it all works, and want to share that knowledge with others."
+  author = "Tiberiu Chibici"
+  license = "Content licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)"
+
+  # GitHub edit URL (optional)
+  # editURL = "https://github.com/yourusername/nanobyte-site/edit/main/content/"
+
+# Main menu (used in header)
+[[menu.main]]
+  name = "Home"
+  url = "/"
+  weight = 1
+[[menu.main]]
+  name = "Blog"
+  url = "/posts/"
+  weight = 2
+[[menu.main]]
+  name = "YouTube"
+  url = "https://www.youtube.com/@nanobyte-dev"
+  weight = 3
+[[menu.main]]
+  name = "Discord"
+  url = "https://discord.gg/xNrRVXtsgs"
+  weight = 4

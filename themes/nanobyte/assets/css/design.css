@@ -1,0 +1,453 @@
+/**
+ * This file provides the main design styles for the
+ * bits that surround the content.
+ *
+ * @author Anika Henke <anika@selfthinker.org>
+ * @author Andreas Gohr <andi@splitbrain.org>
+ */
+
+
+/* header
+********************************************************************/
+
+#dokuwiki__header {
+}
+
+#dokuwiki__header .nb_logo {
+	height: 13rem;
+}
+
+#dokuwiki__header .nb_logo img {
+	display: block;
+	height: 100%;
+	object-fit: cover;
+	margin: 0 auto;
+	margin-top: -3rem;
+}
+
+#dokuwiki__header .nb_nav {
+	width: 100%;
+	margin-top: .25rem;
+	margin-bottom: 1.25rem;
+}
+
+#dokuwiki__header .nb_nav ul {
+	display:flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	margin: 0 auto;
+	padding: 0;
+}
+
+#dokuwiki__header .nb_nav ul > li {
+	display: inline-block;
+	margin: .25rem .5rem;
+}
+
+#dokuwiki__header .nb_nav ul > li a {
+	color: #ccc;
+}
+
+#dokuwiki__header .nb_nav ul > li a:hover {
+	color: yellow;
+}
+
+#dokuwiki__header .nb_nav ul > li:not(:last-child):after {
+	margin-left: 1rem;
+	color: #ccc;
+	opacity: .5;
+	content: "|";
+}
+
+#dokuwiki__header .headings {
+    margin-bottom: 2.1em;
+}
+#dokuwiki__header h1 {
+    margin-bottom: 0;
+    font-size: 1.5em;
+}
+#dokuwiki__header h1 a {
+    text-decoration: none;
+    color: #F0A9B8;
+    background-color: inherit;
+}
+#dokuwiki__header p.claim {
+    margin-bottom: 0;
+}
+#dokuwiki__header h2 {
+    margin-bottom: 0;
+    font-size: 1.125em;
+}
+
+#dokuwiki__header .tools {
+    margin-bottom: 2.1em;
+}
+#dokuwiki__header .tools ul {
+    margin-bottom: 0;
+}
+#dokuwiki__header .tools ul li {
+    display: inline;
+}
+
+#dokuwiki__header form.search {
+    margin: .5em 0 0;
+    display: block;
+}
+#dokuwiki__header form.search #qsearch__in {
+    width: 12em;
+    margin-right: .5em;
+}
+[dir=rtl] #dokuwiki__header form.search #qsearch__in {
+    margin-right: 0;
+    margin-left: .5em;
+}
+
+#dokuwiki__header div.breadcrumbs {
+    margin-bottom: .3em;
+}
+#dokuwiki__header div.breadcrumbs a {
+    color: #F0A9B8;
+    background-color: inherit;
+}
+
+.user_logged_in {
+	position: absolute;
+	right: 1rem;
+	top: .25rem;
+}
+
+/* tools
+********************************************************************/
+
+/* make wiki links look the same as tool links in tool bars */
+#dokuwiki__usertools a.wikilink1,
+#dokuwiki__pagetools a.wikilink1,
+#dokuwiki__usertools a.wikilink2,
+#dokuwiki__pagetools a.wikilink2 {
+    color: #F0A9B8;
+    border-bottom-width: 0;
+}
+#dokuwiki__usertools a.wikilink2:hover,
+#dokuwiki__pagetools a.wikilink2:hover,
+#dokuwiki__usertools a.wikilink2:active,
+#dokuwiki__pagetools a.wikilink2:active,
+#dokuwiki__usertools a.wikilink2:focus,
+#dokuwiki__pagetools a.wikilink2:focus {
+    text-decoration: underline;
+}
+
+/* highlight selected tool */
+/* before Greebo: */
+.mode_admin a.action.admin,
+.mode_login a.action.login,
+.mode_register a.action.register,
+.mode_profile a.action.profile,
+.mode_recent a.action.recent,
+.mode_index a.action.index,
+.mode_media a.action.media,
+.mode_revisions a.action.revs,
+.mode_backlink a.action.backlink,
+.mode_subscribe a.action.subscribe,
+/* since Greebo: */
+.mode_admin .action.admin a,
+.mode_login .action.login a,
+.mode_register .action.register a,
+.mode_profile .action.profile a,
+.mode_recent .action.recent a,
+.mode_index .action.index a,
+.mode_media .action.media a,
+.mode_revisions .action.revs a,
+.mode_backlink .action.backlink a,
+.mode_subscribe .action.subscribe a {
+    font-weight: bold;
+}
+
+/*____________ page tools ____________*/
+
+/* before Greebo: */
+#dokuwiki__pagetools ul li a.action.top,
+/* since Greebo: */
+#dokuwiki__pagetools ul li.action.top a {
+    display: none;
+}
+/* before Greebo: */
+[dir=rtl] #dokuwiki__pagetools ul li a.action.top,
+/* since Greebo: */
+[dir=rtl] #dokuwiki__pagetools ul li.action.top a {
+    display: none;
+}
+
+/* hide background images from menu items inserted via plugins */
+#dokuwiki__pagetools ul li a {
+    background-image: none !important;
+}
+#dokuwiki__pagetools ul li a::before {
+    content: none !important;
+}
+
+
+/* sidebar
+********************************************************************/
+
+.sidepanel {
+	align-self: stretch;
+}
+
+.sidepanel nav {
+	margin-top: .75rem;
+}
+
+.sidepanel h3 {
+	margin: 0;
+	padding: .35rem .75rem;
+	background: #4e348a; //linear-gradient(180deg,#4e348a 0,#3e2479 100%);
+	border-radius: .35rem .35rem 0 0;
+}
+
+.sidepanel nav ul {
+	margin: 0;
+	padding: .35rem 0 .35rem 0;
+	
+	border-radius: 0 0 .35rem .35rem;
+	background: #2d2842;
+}
+
+.sidepanel nav ul li {
+	display: block;
+	width: 100%;
+	list-style: none;
+	margin-left: 0;
+}
+
+.sidepanel nav ul li.level1 {
+	margin-left: 0;
+}
+
+.sidepanel nav ul li .curid a {
+	background: #454059;
+}
+
+.sidepanel nav ul li a {
+	color: #eee !important;
+	padding: .25rem .5rem .25rem 1.5rem;
+	display: block;
+}
+
+.sidepanel nav ul li a:hover {
+	background: #454059;
+	text-decoration: none;
+}
+
+.mode_admin .sidepanel a.action.admin,
+.mode_login .sidepanel a.action.login,
+.mode_register .sidepanel a.action.register,
+.mode_profile .sidepanel a.action.profile,
+.mode_recent .sidepanel a.action.recent,
+.mode_index .sidepanel a.action.index,
+.mode_media .sidepanel a.action.media,
+.mode_revisions .sidepanel a.action.revs,
+.mode_backlink .sidepanel a.action.backlink,
+.mode_subscribe .sidepanel a.action.subscribe,
+.mode_admin .sidepanel .action.admin a,
+.mode_login .sidepanel .action.login a,
+.mode_register .sidepanel .action.register a,
+.mode_profile .sidepanel .action.profile a,
+.mode_recent .sidepanel .action.recent a,
+.mode_index  .sidepanel .action.index a,
+.mode_media .sidepanel .action.media a,
+.mode_revisions .sidepanel .action.revs a,
+.mode_backlink .sidepanel .action.backlink a,
+.mode_subscribe .sidepanel .action.subscribe a {
+	background: #454059;	
+}
+
+// hamburger
+#sidepanel_hamburger {
+	color: #eee;
+	display: none;
+}
+
+// search
+#dw__search {
+	display: block;
+}
+
+#dw__search .no{
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+#dw__search .no input.edit {
+	flex-grow: 1;
+	background: #2d2842;
+	border: none;
+	border-radius: .35rem 0 0 .35rem;
+	color: #eee;
+	padding: .25rem .5rem;
+}
+
+#dw__search .no button {
+	flex-shrink: 0;
+	background: #4e348a;
+	border: none;
+	border-radius: .35rem;
+	color: #eee;
+	padding: .25rem .5rem;
+	margin-left: -.35rem;
+}
+
+#dw__search .no button:hover {
+	background: #6a4eaa;
+	box-shadow: 0 0 .35rem #111;
+}
+
+#dw__search .no button:focus {
+	background: #422d71;
+	box-shadow: none;
+}
+
+/* toc */
+
+#dw__toc {
+	margin: 0 0 1rem 1rem;
+	padding: .25rem;
+	width: 16rem;
+	background: #2d2842;
+	border-radius: .5rem;
+	text-align: left;
+}
+
+/* content
+********************************************************************/
+
+.dokuwiki .page {
+    word-wrap: break-word;
+	text-align: justify;
+}
+
+/* license note in footer and under edit window */
+.dokuwiki div.license {
+    font-size: 93.75%;
+}
+
+.dokuwiki .wrapper {
+    padding-bottom: 1rem;
+	background: #1e1a2d;
+	box-shadow: 0 0 1rem #1e1a2d;
+	display: flex;
+	flex-flow: row nowrap;
+    align-items: stretch;
+	min-height: 60vh;
+}
+
+.dokuwiki .wrapper .sidepanel {
+	width: 18rem;
+	padding: 1.25rem;
+}
+
+.dokuwiki .wrapper .main {
+	margin: 1em;
+	margin-left: 0;
+	flex-grow: 1;
+	min-height: 15rem;
+}
+
+
+/* footer
+********************************************************************/
+
+#dokuwiki__footer {
+    background: #15121e;
+	text-align: center;
+	padding: 1.5rem 1.5rem 0 1.5rem;
+	box-shadow: inset 0 7px 9px -1rem black;
+}
+
+#dokuwiki__footer > .container {
+	text-align: left;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 10%;
+}
+
+#dokuwiki__footer .doc {
+}
+#dokuwiki__footer .top {
+}
+
+#dokuwiki__footer .license {
+}
+#dokuwiki__footer .license img {
+    margin: 0 .5em 0 0;
+    float: none;
+}
+
+.invisible_footer {
+	display: block;
+	width: 100%;
+	background: #15121e;
+}
+
+/* editor
+********************************************************************/
+textarea, input[type="text"], input[type="password"] {
+	background: #2d2842;
+	color: #eee;
+	border: none;
+	border-radius: .25rem;
+	padding: .25rem;
+}
+
+button, input[type="button"], input[type="submit"], select {
+	background: #4e348a;
+	border: none;
+	border-radius: .25rem;
+	box-shadow: 1px 1px 3px #15121e;
+	color: #eee;
+	padding: .25rem .5rem;
+	margin: 0 2px;
+	transition: background-color .15s, box-shadow .15s;
+}
+
+select {
+	padding: .25rem .5rem !important;
+}
+
+button:hover, input[type="button"]:hover, input[type="submit"]:hover, select:hover {
+	background: #6a4eaa;
+}
+
+button:focus, input[type="button"]:focus, input[type="submit"]:focus, select:focus {
+	background: #422d71;
+	box-shadow: 0 0 0 transparent;
+}
+
+select:focus, select:target {
+	background: #2d2842;
+	color: #eee;
+}
+
+.tool__bar button, input[type="button"] {
+	border-radius: 0; 
+	margin: 0;
+}
+
+.tool__bar button:first-child, input[type="button"]:first-child {
+	border-radius: .25rem 0 0 .25rem; 
+}
+
+.tool__bar button:last-child, input[type="button"]:last-child {
+	border-radius: 0 .25rem .25rem 0; 
+}
+
+.section_highlight {
+	background: #2d2842;
+}
+
+
+#dokuwiki__detail {
+	background: #1e1a2d;
+	min-height: 100vh;
+}

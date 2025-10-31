@@ -23,6 +23,8 @@
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
 
     <meta name="generator" content="Hugo 0.152.2">
+
+    <script src="/js/nanobyte.js"></script>
 </head>
 <body>
     <div id="dokuwiki__site">
@@ -63,14 +65,24 @@
     </a>
 
     
-    <div class="search">
-        <form action="/search/" method="get">
-            <input type="search" name="q" placeholder="Search...">
-        </form>
-    </div>
+    <form id="dw__search" action="/search/" method="get">
+        <div class="no">
+            <input type="search" name="q" id="qsearch__in" class="edit" placeholder="Search..." />
+            <button type="submit">Search</button>
+        </div>
+    </form>
 
     
-    
+    <aside id="dokuwiki__aside" aria-label="Sidebar">
+        <nav>
+            <h3>Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/building-an-os/">Building an Operating System</a></li>
+                <li><a href="/transcripts/">Video transcripts</a></li>
+            </ul>
+        </nav>
+    </aside>
 
     
     

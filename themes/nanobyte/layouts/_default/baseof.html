@@ -29,8 +29,8 @@
     <script src="/js/nanobyte.js"></script>
 </head>
 <body>
-    <div id="dokuwiki__site">
-        <div id="dokuwiki__top" class="site">
+    <div id="nb-site">
+        <div id="nb-top" class="site">
 
             {{ partial "header.html" . }}
 
@@ -39,7 +39,7 @@
                 {{ partial "sidebar.html" . }}
 
                 <div class="main">
-                    <main id="dokuwiki__content">
+                    <main id="nb-content">
                         <div class="page">
                             {{ block "main" . }}{{ end }}
                             <div class="clearer"></div>

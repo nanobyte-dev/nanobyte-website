@@ -325,7 +325,7 @@ code,
 samp,
 kbd {
     font-family: "Cascadia Code", Consolas, "Andale Mono WT", "Andale Mono", "Bitstream Vera Sans Mono", "Nimbus Mono L", Monaco, "Courier New", monospace;
-    /* same font stack should be used for ".dokuwiki table.diff td" in _diff.css */
+    /* same font stack should be used for ".nb table.diff td" in _diff.css */
     font-size: 1em;
     background-color: #1e1a2d;
     color: #ccc;

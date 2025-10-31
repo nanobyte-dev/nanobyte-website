@@ -17,7 +17,7 @@
     </form>
 
     <!-- Sidebar navigation -->
-    <aside id="dokuwiki__aside" aria-label="Sidebar">
+    <aside id="nb-sidebar" aria-label="Sidebar">
         <nav>
             <h3>Navigation</h3>
             <ul>
@@ -30,13 +30,13 @@
 
     <!-- Page tools -->
     {{ if not .IsHome }}
-    <nav id="dokuwiki__pagetools" aria-labelledby="dokuwiki__pagetools_heading">
-        <h3 id="dokuwiki__pagetools_heading">Page tools</h3>
+    <nav id="nb-pagetools" aria-labelledby="nb-pagetools_heading">
+        <h3 id="nb-pagetools_heading">Page tools</h3>
         <ul>
             {{ if .File }}
             <li><a href="{{ .Site.Params.editURL }}{{ .File.Path }}">Edit</a></li>
             {{ end }}
-            <li><a href="#dokuwiki__top">Back to top</a></li>
+            <li><a href="#nb-top">Back to top</a></li>
         </ul>
     </nav>
     {{ end }}

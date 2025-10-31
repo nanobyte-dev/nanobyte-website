@@ -13,13 +13,13 @@ body {
 /* hide certain sections */
 audio,
 video,
-#dokuwiki__header .tools,
-#dokuwiki__aside,
-.dokuwiki .breadcrumbs,
-.dokuwiki .toc,
+#nb-header .tools,
+#nb-sidebar,
+.nb .breadcrumbs,
+.nb .toc,
 #dw__toc,
-#dokuwiki__pagetools,
-#dokuwiki__footer {
+#nb-pagetools,
+#nb-footer {
     display: none;
 }
 
@@ -138,16 +138,16 @@ th {
 
 /*____________ a bit of layout ____________*/
 
-#dokuwiki__header {
+#nb-header {
     border-bottom: 2pt solid #ccc;
 }
-#dokuwiki__header h1 {
+#nb-header h1 {
     font-size: 1.5em;
 }
-#dokuwiki__header h1 a {
+#nb-header h1 a {
     text-decoration: none;
 }
-.dokuwiki div.footnotes {
+.nb div.footnotes {
     clear: both;
     border-top: 1pt solid #000;
     margin-top: 10pt;

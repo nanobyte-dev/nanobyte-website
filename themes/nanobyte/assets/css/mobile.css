@@ -59,11 +59,11 @@
 
 
 
-#dokuwiki__footer > .container {
+#nb-footer > .container {
 	flex-direction: column;
 	align-items: center;
 }
-#dokuwiki__footer > .container > * {
+#nb-footer > .container > * {
 	min-width: 16rem;
 }
 

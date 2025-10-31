@@ -10,14 +10,14 @@
 /* header
 ********************************************************************/
 
-#dokuwiki__header {
+#nb-header {
 }
 
-#dokuwiki__header .nb_logo {
+#nb-header .nb_logo {
 	height: 13rem;
 }
 
-#dokuwiki__header .nb_logo img {
+#nb-header .nb_logo img {
 	display: block;
 	height: 100%;
 	object-fit: cover;
@@ -25,13 +25,13 @@
 	margin-top: -3rem;
 }
 
-#dokuwiki__header .nb_nav {
+#nb-header .nb_nav {
 	width: 100%;
 	margin-top: .25rem;
 	margin-bottom: 1.25rem;
 }
 
-#dokuwiki__header .nb_nav ul {
+#nb-header .nb_nav ul {
 	display:flex;
 	flex-flow: row wrap;
 	justify-content: center;
@@ -39,73 +39,73 @@
 	padding: 0;
 }
 
-#dokuwiki__header .nb_nav ul > li {
+#nb-header .nb_nav ul > li {
 	display: inline-block;
 	margin: .25rem .5rem;
 }
 
-#dokuwiki__header .nb_nav ul > li a {
+#nb-header .nb_nav ul > li a {
 	color: #ccc;
 }
 
-#dokuwiki__header .nb_nav ul > li a:hover {
+#nb-header .nb_nav ul > li a:hover {
 	color: yellow;
 }
 
-#dokuwiki__header .nb_nav ul > li:not(:last-child):after {
+#nb-header .nb_nav ul > li:not(:last-child):after {
 	margin-left: 1rem;
 	color: #ccc;
 	opacity: .5;
 	content: "|";
 }
 
-#dokuwiki__header .headings {
+#nb-header .headings {
     margin-bottom: 2.1em;
 }
-#dokuwiki__header h1 {
+#nb-header h1 {
     margin-bottom: 0;
     font-size: 1.5em;
 }
-#dokuwiki__header h1 a {
+#nb-header h1 a {
     text-decoration: none;
     color: #F0A9B8;
     background-color: inherit;
 }
-#dokuwiki__header p.claim {
+#nb-header p.claim {
     margin-bottom: 0;
 }
-#dokuwiki__header h2 {
+#nb-header h2 {
     margin-bottom: 0;
     font-size: 1.125em;
 }
 
-#dokuwiki__header .tools {
+#nb-header .tools {
     margin-bottom: 2.1em;
 }
-#dokuwiki__header .tools ul {
+#nb-header .tools ul {
     margin-bottom: 0;
 }
-#dokuwiki__header .tools ul li {
+#nb-header .tools ul li {
     display: inline;
 }
 
-#dokuwiki__header form.search {
+#nb-header form.search {
     margin: .5em 0 0;
     display: block;
 }
-#dokuwiki__header form.search #qsearch__in {
+#nb-header form.search #qsearch__in {
     width: 12em;
     margin-right: .5em;
 }
-[dir=rtl] #dokuwiki__header form.search #qsearch__in {
+[dir=rtl] #nb-header form.search #qsearch__in {
     margin-right: 0;
     margin-left: .5em;
 }
 
-#dokuwiki__header div.breadcrumbs {
+#nb-header div.breadcrumbs {
     margin-bottom: .3em;
 }
-#dokuwiki__header div.breadcrumbs a {
+#nb-header div.breadcrumbs a {
     color: #F0A9B8;
     background-color: inherit;
 }
@@ -120,19 +120,19 @@
 ********************************************************************/
 
 /* make wiki links look the same as tool links in tool bars */
-#dokuwiki__usertools a.wikilink1,
-#dokuwiki__pagetools a.wikilink1,
-#dokuwiki__usertools a.wikilink2,
-#dokuwiki__pagetools a.wikilink2 {
+#nb-usertools a.wikilink1,
+#nb-pagetools a.wikilink1,
+#nb-usertools a.wikilink2,
+#nb-pagetools a.wikilink2 {
     color: #F0A9B8;
     border-bottom-width: 0;
 }
-#dokuwiki__usertools a.wikilink2:hover,
-#dokuwiki__pagetools a.wikilink2:hover,
-#dokuwiki__usertools a.wikilink2:active,
-#dokuwiki__pagetools a.wikilink2:active,
-#dokuwiki__usertools a.wikilink2:focus,
-#dokuwiki__pagetools a.wikilink2:focus {
+#nb-usertools a.wikilink2:hover,
+#nb-pagetools a.wikilink2:hover,
+#nb-usertools a.wikilink2:active,
+#nb-pagetools a.wikilink2:active,
+#nb-usertools a.wikilink2:focus,
+#nb-pagetools a.wikilink2:focus {
     text-decoration: underline;
 }
 
@@ -165,23 +165,23 @@
 /*____________ page tools ____________*/
 
 /* before Greebo: */
-#dokuwiki__pagetools ul li a.action.top,
+#nb-pagetools ul li a.action.top,
 /* since Greebo: */
-#dokuwiki__pagetools ul li.action.top a {
+#nb-pagetools ul li.action.top a {
     display: none;
 }
 /* before Greebo: */
-[dir=rtl] #dokuwiki__pagetools ul li a.action.top,
+[dir=rtl] #nb-pagetools ul li a.action.top,
 /* since Greebo: */
-[dir=rtl] #dokuwiki__pagetools ul li.action.top a {
+[dir=rtl] #nb-pagetools ul li.action.top a {
     display: none;
 }
 
 /* hide background images from menu items inserted via plugins */
-#dokuwiki__pagetools ul li a {
+#nb-pagetools ul li a {
     background-image: none !important;
 }
-#dokuwiki__pagetools ul li a::before {
+#nb-pagetools ul li a::before {
     content: none !important;
 }
 
@@ -261,7 +261,7 @@
 	background: #454059;	
 }
 
-// hamburger
+/* hamburger - hidden by default, shown on mobile */
 #sidepanel_hamburger {
 	color: #eee;
 	display: none;
@@ -356,14 +356,14 @@ div.license {
 /* footer
 ********************************************************************/
 
-#dokuwiki__footer {
+#nb-footer {
     background: #15121e;
 	text-align: center;
 	padding: 1.5rem 1.5rem 0 1.5rem;
 	box-shadow: inset 0 7px 9px -1rem black;
 }
 
-#dokuwiki__footer > .container {
+#nb-footer > .container {
 	text-align: left;
 	display: flex;
 	flex-flow: row nowrap;
@@ -372,14 +372,14 @@ div.license {
 	gap: 10%;
 }
 
-#dokuwiki__footer .doc {
+#nb-footer .doc {
 }
-#dokuwiki__footer .top {
+#nb-footer .top {
 }
 
-#dokuwiki__footer .license {
+#nb-footer .license {
 }
-#dokuwiki__footer .license img {
+#nb-footer .license img {
     margin: 0 .5em 0 0;
     float: none;
 }
@@ -447,7 +447,7 @@ select:focus, select:target {
 }
 
 
-#dokuwiki__detail {
+#nb-detail {
 	background: #1e1a2d;
 	min-height: 100vh;
 }

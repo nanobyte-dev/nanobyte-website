@@ -8,50 +8,50 @@
 
 /*____________ section indenting ____________*/
 
-.dokuwiki .page h1 {
+.nb .page h1 {
 	text-align: left;
 }
 
-.dokuwiki .page li {
+.nb .page li {
 	margin-bottom: .5rem;
 }
 
-.dokuwiki .page li > ul {
+.nb .page li > ul {
 	margin-top: .5rem;
 }
 
-/*.dokuwiki .page  h2 {margin-left: .666em;}
-.dokuwiki .page  h3 {margin-left: 1.776em;}
-.dokuwiki .page  h4 {margin-left: 3em;}
-.dokuwiki .page  h5 {margin-left: 4.5712em;}
-.dokuwiki .page  div.level1 {margin-left: 0;}
-.dokuwiki .page  div.level2 {margin-left: 1em;}
-.dokuwiki .page  div.level3 {margin-left: 2em;}
-.dokuwiki .page  div.level4 {margin-left: 3em;}
-.dokuwiki .page  div.level5 {margin-left: 4em;}
+/*.nb .page  h2 {margin-left: .666em;}
+.nb .page  h3 {margin-left: 1.776em;}
+.nb .page  h4 {margin-left: 3em;}
+.nb .page  h5 {margin-left: 4.5712em;}
+.nb .page  div.level1 {margin-left: 0;}
+.nb .page  div.level2 {margin-left: 1em;}
+.nb .page  div.level3 {margin-left: 2em;}
+.nb .page  div.level4 {margin-left: 3em;}
+.nb .page  div.level5 {margin-left: 4em;}
 
-[dir=rtl] .dokuwiki .page h1 {margin-left: 0; margin-right: 0;}
-[dir=rtl] .dokuwiki .page h2 {margin-left: 0; margin-right: .666em;}
-[dir=rtl] .dokuwiki .page h3 {margin-left: 0; margin-right: 1.776em;}
-[dir=rtl] .dokuwiki .page h4 {margin-left: 0; margin-right: 3em;}
-[dir=rtl] .dokuwiki .page h5 {margin-left: 0; margin-right: 4.5712em;}
-[dir=rtl] .dokuwiki .page div.level1 {margin-left: 0; margin-right: 0;}
-[dir=rtl] .dokuwiki .page div.level2 {margin-left: 0; margin-right: 1em;}
-[dir=rtl] .dokuwiki .page div.level3 {margin-left: 0; margin-right: 2em;}
-[dir=rtl] .dokuwiki .page div.level4 {margin-left: 0; margin-right: 3em;}
-[dir=rtl] .dokuwiki .page div.level5 {margin-left: 0; margin-right: 4em;}
+[dir=rtl] .nb .page h1 {margin-left: 0; margin-right: 0;}
+[dir=rtl] .nb .page h2 {margin-left: 0; margin-right: .666em;}
+[dir=rtl] .nb .page h3 {margin-left: 0; margin-right: 1.776em;}
+[dir=rtl] .nb .page h4 {margin-left: 0; margin-right: 3em;}
+[dir=rtl] .nb .page h5 {margin-left: 0; margin-right: 4.5712em;}
+[dir=rtl] .nb .page div.level1 {margin-left: 0; margin-right: 0;}
+[dir=rtl] .nb .page div.level2 {margin-left: 0; margin-right: 1em;}
+[dir=rtl] .nb .page div.level3 {margin-left: 0; margin-right: 2em;}
+[dir=rtl] .nb .page div.level4 {margin-left: 0; margin-right: 3em;}
+[dir=rtl] .nb .page div.level5 {margin-left: 0; margin-right: 4em;}
 */
 /* hx margin-left = (1 / font-size) * .levelx-margin */
 
 /*____________ links to wiki pages (addition to _links) ____________*/
 
 /* existing wikipage */
-.dokuwiki a.wikilink1 {
+.nb a.wikilink1 {
     color: #F0A9B8;
     background-color: inherit;
 }
 /* not existing wikipage */
-.dokuwiki a.wikilink2 {
+.nb a.wikilink2 {
     color: #f30;
     background-color: inherit;
 }
@@ -60,16 +60,16 @@
 /*____________ images ____________*/
 
 /* embedded images (styles are already partly set in DokuWiki's lib/styles/all.css) */
-.dokuwiki img.media {
+.nb img.media {
     margin: .2em 0;
 }
-.dokuwiki img.medialeft {
+.nb img.medialeft {
     margin: .2em 1.5em .2em 0;
 }
-.dokuwiki img.mediaright {
+.nb img.mediaright {
     margin: .2em 0 .2em 1.5em;
 }
-.dokuwiki img.mediacenter {
+.nb img.mediacenter {
     margin: .2em auto;
 }
 
@@ -77,16 +77,16 @@
 /*____________ tables ____________*/
 
 /* div before each table */
-.dokuwiki div.table {
+.nb div.table {
 }
 
-.dokuwiki table.inline {
+.nb table.inline {
     min-width: 50%;
 }
-.dokuwiki table.inline tr:hover td {
+.nb table.inline tr:hover td {
     background-color: #1e1a2d;
 }
-.dokuwiki table.inline tr:hover th {
+.nb table.inline tr:hover th {
     background-color: #333;
 }
 
@@ -94,17 +94,17 @@
 /*____________ code ____________*/
 
 /* fix if background-color hides underlining */
-.dokuwiki em.u code {
+.nb em.u code {
     text-decoration: underline;
 }
 
 /* filenames for downloadable file and code blocks */
-.dokuwiki dl.code,
-.dokuwiki dl.file {
+.nb dl.code,
+.nb dl.file {
 }
 
-.dokuwiki dl.code dt,
-.dokuwiki dl.file dt {
+.nb dl.code dt,
+.nb dl.file dt {
     background-color: #1e1a2d;
     border: solid #333;
     border-width: 1px 1px 0;
@@ -113,24 +113,24 @@
     padding: .1em .5em .2em;
     margin-left: 1em;
 }
-[dir=rtl] .dokuwiki dl.code dt,
-[dir=rtl] .dokuwiki dl.file dt {
+[dir=rtl] .nb dl.code dt,
+[dir=rtl] .nb dl.file dt {
     margin-left: 0;
     margin-right: 1em;
 }
-.dokuwiki dl.code dt a,
-.dokuwiki dl.file dt a {
+.nb dl.code dt a,
+.nb dl.file dt a {
 }
 
-.dokuwiki dl.code dd,
-.dokuwiki dl.file dd {
+.nb dl.code dd,
+.nb dl.file dd {
     margin: 0;
 }
 
 /* for code in <file> */
-.dokuwiki pre.file,
-.dokuwiki dl.file pre,
-.dokuwiki dl.file dt {
+.nb pre.file,
+.nb dl.file pre,
+.nb dl.file dt {
     border-color: #eee;
 }
 

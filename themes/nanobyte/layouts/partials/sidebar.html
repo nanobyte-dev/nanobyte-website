@@ -8,19 +8,25 @@
         </svg>
     </a>
 
-    <!-- Search form placeholder -->
-    <div class="search">
-        <form action="/search/" method="get">
-            <input type="search" name="q" placeholder="Search...">
-        </form>
-    </div>
+    <!-- Search form -->
+    <form id="dw__search" action="/search/" method="get">
+        <div class="no">
+            <input type="search" name="q" id="qsearch__in" class="edit" placeholder="Search..." />
+            <button type="submit">Search</button>
+        </div>
+    </form>
 
-    <!-- Sidebar content -->
-    {{ if .Site.Params.sidebar }}
+    <!-- Sidebar navigation -->
     <aside id="dokuwiki__aside" aria-label="Sidebar">
-        {{ .Site.Params.sidebar | markdownify }}
+        <nav>
+            <h3>Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/building-an-os/">Building an Operating System</a></li>
+                <li><a href="/transcripts/">Video transcripts</a></li>
+            </ul>
+        </nav>
     </aside>
-    {{ end }}
 
     <!-- Page tools -->
     {{ if not .IsHome }}

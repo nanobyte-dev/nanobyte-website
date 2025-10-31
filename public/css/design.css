@@ -320,17 +320,17 @@
 /* content
 ********************************************************************/
 
-.dokuwiki .page {
+.page {
     word-wrap: break-word;
 	text-align: justify;
 }
 
 /* license note in footer and under edit window */
-.dokuwiki div.license {
+div.license {
     font-size: 93.75%;
 }
 
-.dokuwiki .wrapper {
+.wrapper {
     padding-bottom: 1rem;
 	background: #1e1a2d;
 	box-shadow: 0 0 1rem #1e1a2d;
@@ -340,12 +340,12 @@
 	min-height: 60vh;
 }
 
-.dokuwiki .wrapper .sidepanel {
+.wrapper .sidepanel {
 	width: 18rem;
 	padding: 1.25rem;
 }
 
-.dokuwiki .wrapper .main {
+.wrapper .main {
 	margin: 1em;
 	margin-left: 0;
 	flex-grow: 1;

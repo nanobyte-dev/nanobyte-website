@@ -1,0 +1,211 @@
+/**
+ * Legacy CSS for older browsers (IE8+, old Firefox/Chrome)
+ * No flexbox, no CSS3, only CSS2.1 compatible features
+ */
+
+/* header */
+#nb-header {
+    text-align: center;
+    padding: 1rem 0;
+}
+
+#nb-header .nb_logo {
+    height: 10rem;
+    margin-bottom: 1rem;
+}
+
+#nb-header .nb_logo img {
+    display: block;
+    height: 100%;
+    margin: 0 auto;
+}
+
+#nb-header .nb_nav {
+    width: 100%;
+    margin: 1rem 0;
+}
+
+#nb-header .nb_nav ul {
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+}
+
+#nb-header .nb_nav ul > li {
+    display: inline;
+    margin: 0 0.5rem;
+}
+
+#nb-header .nb_nav ul > li a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+#nb-header .nb_nav ul > li a:hover {
+    color: yellow;
+}
+
+/* sidebar - float-based layout instead of flexbox */
+.sidepanel {
+    float: left;
+    width: 16rem;
+    padding: 1rem;
+    background: #1e1a2d;
+}
+
+.sidepanel nav {
+    margin-top: 0.75rem;
+}
+
+.sidepanel h3 {
+    margin: 0;
+    padding: 0.35rem 0.75rem;
+    background: #4e348a;
+    border-radius: 0.35rem 0.35rem 0 0;
+}
+
+.sidepanel nav ul {
+    margin: 0;
+    padding: 0.35rem 0;
+    background: #2d2842;
+    border-radius: 0 0 0.35rem 0.35rem;
+    list-style: none;
+}
+
+.sidepanel nav ul li {
+    display: block;
+    width: 100%;
+    list-style: none;
+    margin: 0;
+}
+
+.sidepanel nav ul li a {
+    color: #eee;
+    padding: 0.25rem 0.5rem 0.25rem 1.5rem;
+    display: block;
+    text-decoration: none;
+}
+
+.sidepanel nav ul li a:hover {
+    background: #454059;
+    text-decoration: none;
+}
+
+/* hamburger - hidden on desktop */
+#sidepanel_hamburger {
+    display: none;
+}
+
+/* search form */
+#dw__search {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+#dw__search .no {
+    width: 100%;
+}
+
+#dw__search .no input.edit {
+    width: 70%;
+    background: #2d2842;
+    border: 1px solid #333;
+    color: #eee;
+    padding: 0.25rem 0.5rem;
+}
+
+#dw__search .no button {
+    background: #4e348a;
+    border: 1px solid #333;
+    color: #eee;
+    padding: 0.25rem 0.5rem;
+}
+
+#dw__search .no button:hover {
+    background: #6a4eaa;
+}
+
+/* content - float-based layout */
+.wrapper {
+    padding-bottom: 1rem;
+    background: #1e1a2d;
+    min-height: 60vh;
+    overflow: hidden; /* clearfix for floats */
+}
+
+.wrapper .main {
+    margin-left: 18rem; /* sidebar width + padding */
+    padding: 1em;
+    min-height: 15rem;
+}
+
+/* footer */
+#nb-footer {
+    clear: both;
+    background: #15121e;
+    text-align: center;
+    padding: 1.5rem;
+}
+
+#nb-footer > .container {
+    text-align: center;
+}
+
+#nb-footer > .container > * {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 2rem;
+    min-width: 12rem;
+}
+
+#nb-footer nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+#nb-footer nav ul li {
+    margin: 0.25rem 0;
+}
+
+#nb-footer nav ul li a {
+    color: #F0A9B8;
+    text-decoration: none;
+}
+
+#nb-footer nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* forms - simplified */
+textarea, input[type="text"], input[type="password"], input[type="search"] {
+    background: #2d2842;
+    color: #eee;
+    border: 1px solid #333;
+    padding: 0.25rem;
+}
+
+button, input[type="button"], input[type="submit"] {
+    background: #4e348a;
+    border: 1px solid #333;
+    color: #eee;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+}
+
+button:hover, input[type="button"]:hover, input[type="submit"]:hover {
+    background: #6a4eaa;
+}
+
+/* clearfix utility */
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.clearer {
+    clear: both;
+}

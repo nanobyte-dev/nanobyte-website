@@ -10,16 +10,27 @@
     {{ end }}
 
     {{ $cssBasic := resources.Get "css/basic.css" }}
-    {{ $cssStructure := resources.Get "css/structure.css" }}
-    {{ $cssDesign := resources.Get "css/design.css" }}
     {{ $cssContent := resources.Get "css/content.css" }}
-    {{ $cssMobile := resources.Get "css/mobile.css" }}
 
-    <link rel="stylesheet" href="{{ $cssBasic.RelPermalink }}">
-    <link rel="stylesheet" href="{{ $cssStructure.RelPermalink }}">
-    <link rel="stylesheet" href="{{ $cssDesign.RelPermalink }}">
-    <link rel="stylesheet" href="{{ $cssContent.RelPermalink }}">
-    <link rel="stylesheet" href="{{ $cssMobile.RelPermalink }}" media="screen and (max-width: 768px)">
+    {{ if .Site.Params.legacyMode }}
+        {{/* Legacy build - simplified CSS for old browsers */}}
+        {{ $cssStructure := resources.Get "css/structure-legacy.css" }}
+        {{ $cssDesign := resources.Get "css/design-legacy.css" }}
+        <link rel="stylesheet" href="{{ $cssBasic.RelPermalink }}">
+        <link rel="stylesheet" href="{{ $cssStructure.RelPermalink }}">
+        <link rel="stylesheet" href="{{ $cssDesign.RelPermalink }}">
+        <link rel="stylesheet" href="{{ $cssContent.RelPermalink }}">
+    {{ else }}
+        {{/* Modern build - full CSS with flexbox, etc. */}}
+        {{ $cssStructure := resources.Get "css/structure.css" }}
+        {{ $cssDesign := resources.Get "css/design.css" }}
+        {{ $cssMobile := resources.Get "css/mobile.css" }}
+        <link rel="stylesheet" href="{{ $cssBasic.RelPermalink }}">
+        <link rel="stylesheet" href="{{ $cssStructure.RelPermalink }}">
+        <link rel="stylesheet" href="{{ $cssDesign.RelPermalink }}">
+        <link rel="stylesheet" href="{{ $cssContent.RelPermalink }}">
+        <link rel="stylesheet" href="{{ $cssMobile.RelPermalink }}" media="screen and (max-width: 768px)">
+    {{ end }}
 
     <link rel="icon" href="/images/favicon.ico">
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">

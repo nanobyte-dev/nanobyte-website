@@ -1,0 +1,34 @@
+/**
+ * Legacy structure CSS - simplified layout
+ */
+
+body {
+    margin: 0 auto;
+}
+
+#nb-site {
+    min-width: 800px; /* prevent issues on old browsers */
+}
+
+#nb-header {
+    width: 100%;
+}
+
+#nb-footer {
+    clear: both;
+    width: 100%;
+}
+
+/* Simple column system using floats */
+.container-row {
+    width: 100%;
+    overflow: hidden; /* clearfix */
+}
+
+.container-row:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}

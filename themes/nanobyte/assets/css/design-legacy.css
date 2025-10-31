@@ -48,9 +48,8 @@
 /* sidebar - float-based layout instead of flexbox */
 .sidepanel {
     float: left;
-    width: 16rem;
-    padding: 1rem;
-    background: #1e1a2d;
+    width: 15rem;
+    padding: 1.25rem;
 }
 
 .sidepanel nav {
@@ -134,8 +133,9 @@
 }
 
 .wrapper .main {
-    margin-left: 18rem; /* sidebar width + padding */
-    padding: 1em;
+    margin-left: 17.5rem; /* sidebar width (15rem) + padding (2.5rem) */
+    margin-right: 1em;
+    padding: 1em 0;
     min-height: 15rem;
 }
 

@@ -52,6 +52,52 @@ The development server will be available at http://localhost:1313 with hot reloa
 # - public/legacy/  - Legacy build (CSS2.1, floats)
 ```
 
+### Docker Deployment
+
+#### Build and Run with Docker
+
+```bash
+# Build the Docker image
+docker build -t nanobyte-site .
+
+# Run the container
+docker run -d -p 8080:80 --name nanobyte nanobyte-site
+
+# Access the site at http://localhost:8080
+```
+
+#### Using Docker Compose
+
+```bash
+# Build and run production version
+docker compose up -d
+
+# Access the site at http://localhost:8080
+
+# View logs
+docker compose logs -f
+
+# Stop and remove containers
+docker compose down
+```
+
+#### Development with Docker Compose
+
+```bash
+# Run development server with live reload (modern version)
+docker compose --profile dev up dev
+
+# Run development server (legacy version)
+docker compose --profile dev up dev-legacy
+
+# Run both development servers simultaneously
+docker compose --profile dev up dev dev-legacy
+```
+
+The development servers will be available at:
+- Modern: http://localhost:1313
+- Legacy: http://localhost:1314
+
 ## Project Structure
 
 ```
@@ -244,26 +290,85 @@ The Nanobyte theme uses a dark purple aesthetic:
 
 ## Deployment
 
-### Docker Build
+### Docker Deployment (Recommended)
+
+The project includes a Dockerfile for containerized deployment:
+
+```bash
+# Build the image
+docker build -t nanobyte-site .
+
+# Run with Docker
+docker run -d -p 80:80 --name nanobyte nanobyte-site
+
+# Or use Docker Compose
+docker compose up -d
+```
+
+The Dockerfile:
+- Uses multi-stage build for optimization
+- Builds both modern and legacy versions
+- Serves via nginx with user-agent detection
+- Includes health checks and security headers
+
+### Manual Build
 
 The `build.sh` script uses Docker to ensure consistent builds:
 
 ```bash
-docker run --rm \
-  --user $(id -u):$(id -g) \
-  -v $(pwd):/src \
-  hugomods/hugo:exts \
-  hugo --config config.toml --destination public/modern
+./build.sh
+
+# Output directories:
+# - public/modern/  - Modern build
+# - public/legacy/  - Legacy build
 ```
 
-### Server Configuration (Planned)
+### Server Configuration
 
-The dual-build system is designed for nginx user-agent detection:
+The included `nginx.conf` implements automatic user-agent detection to serve the appropriate version:
 
-- Modern browsers → serve `/public/modern/`
-- Old browsers (IE8-11, old Firefox) → serve `/public/legacy/`
+#### Browser Detection Rules
 
-See `SESSION_CONTEXT.md` for deployment architecture details.
+**Legacy version** served to:
+- Internet Explorer 6-11
+- Firefox < 28
+- Chrome < 29
+- Safari < 9
+- Opera < 17 (Presto engine)
+- Android Browser < 4.4
+- iOS Safari < 9
+- Very old browsers (Netscape, Mozilla 1-4)
+
+**Modern version** served to:
+- All current browsers (Chrome, Firefox, Safari, Edge)
+- Any browser not matching legacy rules
+
+#### Testing User-Agent Detection
+
+The container provides debug endpoints:
+
+```bash
+# Check which version your browser would receive
+curl http://localhost:8080/version
+
+# Test with specific user agents
+curl -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" \
+     http://localhost:8080/version
+# Returns: Site version: legacy
+
+# Check the X-Site-Version header
+curl -I http://localhost:8080/
+# Returns: X-Site-Version: modern
+```
+
+#### Additional nginx Features
+
+- Gzip compression for text and web fonts
+- Static file caching with 1-year expiry and immutable headers
+- Security headers (X-Frame-Options, X-Content-Type-Options, X-XSS-Protection)
+- Custom 404 handling
+- Health check endpoint at `/health`
+- Version detection endpoint at `/version`
 
 ## License
 

@@ -1,0 +1,36 @@
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# Build output
+public/
+resources/
+
+# Documentation
+README.md
+SESSION_CONTEXT.md
+CSS_CONSOLIDATION_NOTES.md
+
+# Old/backup files
+*.old
+Docuwiki.old/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker files (not needed in image)
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# CI/CD files
+.github/

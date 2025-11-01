@@ -22,13 +22,19 @@ enableGitInfo = true
   # XHTML mode for better old browser compatibility
   xhtml = true
 
+[markup.tableOfContents]
+  # Table of Contents configuration
+  startLevel = 2
+  endLevel = 4
+  ordered = false
+
 [markup.highlight]
   # Simpler code highlighting for legacy
   codeFences = true
-  guessSyntax = false
+  guessSyntax = true
   lineNos = false
-  noClasses = true
-  style = "monochrome"
+  noClasses = false
+  style = "monokai"
 
 [outputs]
   home = ["HTML", "RSS"]

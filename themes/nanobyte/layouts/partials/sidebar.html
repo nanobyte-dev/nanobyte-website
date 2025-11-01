@@ -8,7 +8,7 @@
         </svg>
     </a>
 
-    <!-- Search form -->
+    <!-- Search form - TODO: implement server-side search -->
     <form id="dw__search" action="/search/" method="get">
         <div class="no">
             <input type="search" name="q" id="qsearch__in" class="edit" placeholder="Search..." />
@@ -22,23 +22,52 @@
             <h3>Navigation</h3>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/building-an-os/">Building an Operating System</a></li>
-                <li><a href="/transcripts/">Video transcripts</a></li>
+
+                <!-- Building an OS section -->
+                <li>
+                    <a href="/building-an-os/" {{ if eq $.RelPermalink "/building-an-os/" }}class="active"{{ end }}>Building an Operating System</a>
+                    {{ $currentSection := .CurrentSection }}
+                    {{ $buildingOS := .Site.GetPage "/building-an-os" }}
+                    {{ if or (eq .Section "building-an-os") (eq .CurrentSection $buildingOS) }}
+                    <ul>
+                        {{ range $buildingOS.Pages.ByWeight }}
+                        <li><a href="{{ .RelPermalink }}" {{ if eq $.RelPermalink .RelPermalink }}class="active"{{ end }}>{{ .Title }}</a></li>
+                        {{ end }}
+                    </ul>
+                    {{ end }}
+                </li>
+
+                <!-- OSdev section -->
+                <li>
+                    <a href="/osdev/" {{ if eq $.RelPermalink "/osdev/" }}class="active"{{ end }}>OS Development</a>
+                    {{ $osdev := .Site.GetPage "/osdev" }}
+                    {{ if or (eq .Section "osdev") (eq .CurrentSection $osdev) }}
+                    <ul>
+                        {{ range $osdev.Pages }}
+                        <li><a href="{{ .RelPermalink }}" {{ if eq $.RelPermalink .RelPermalink }}class="active"{{ end }}>{{ .Title }}</a></li>
+                        {{ end }}
+                    </ul>
+                    {{ end }}
+                </li>
+
+                <!-- Transcripts section -->
+                <li>
+                    <a href="/transcripts/" {{ if eq $.RelPermalink "/transcripts/" }}class="active"{{ end }}>Video Transcripts</a>
+                    {{ $transcripts := .Site.GetPage "/transcripts" }}
+                    {{ if or (eq .Section "transcripts") (eq .CurrentSection $transcripts) }}
+                    <ul>
+                        {{ range $transcripts.Pages }}
+                        {{ if not .Params.draft }}
+                        <li><a href="{{ .RelPermalink }}" {{ if eq $.RelPermalink .RelPermalink }}class="active"{{ end }}>{{ .Title }}</a></li>
+                        {{ end }}
+                        {{ end }}
+                    </ul>
+                    {{ end }}
+                </li>
+
+                <li><a href="/sitemap/">All Articles</a></li>
             </ul>
         </nav>
     </aside>
-
-    <!-- Page tools -->
-    {{ if not .IsHome }}
-    <nav id="nb-pagetools" aria-labelledby="nb-pagetools_heading">
-        <h3 id="nb-pagetools_heading">Page tools</h3>
-        <ul>
-            {{ if .File }}
-            <li><a href="{{ .Site.Params.editURL }}{{ .File.Path }}">Edit</a></li>
-            {{ end }}
-            <li><a href="#nb-top">Back to top</a></li>
-        </ul>
-    </nav>
-    {{ end }}
 
 </div>

@@ -178,3 +178,371 @@
     padding-right: 0;
 }
 
+/* Table of Contents */
+#toc {
+    background: #2d2842;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 1.5rem 0;
+}
+
+#toc h2 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: #F0A9B8;
+}
+
+#toc ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+#toc ul ul {
+    padding-left: 1.5rem;
+}
+
+#toc li {
+    margin: 0.25rem 0;
+}
+
+#toc a {
+    color: #eee;
+    text-decoration: none;
+}
+
+#toc a:hover {
+    color: #F0A9B8;
+    text-decoration: underline;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.breadcrumbs ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+.breadcrumbs li {
+    display: inline;
+    margin: 0 0.25rem 0 0;
+}
+
+.breadcrumbs li:not(:last-child)::after {
+    content: "›";
+    margin-left: 0.5rem;
+    color: #666;
+}
+
+.breadcrumbs a {
+    color: #F0A9B8;
+    text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumbs li.active {
+    color: #ccc;
+}
+
+/* Sitemap */
+.sitemap-content {
+    margin-top: 2rem;
+}
+
+.sitemap-section {
+    margin-bottom: 3rem;
+}
+
+.sitemap-section h2 {
+    color: #F0A9B8;
+    border-bottom: 2px solid #4e348a;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.sitemap-section h2 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.sitemap-section h2 a:hover {
+    text-decoration: underline;
+}
+
+.sitemap-section ul {
+    list-style: none;
+    padding-left: 1.5rem;
+}
+
+.sitemap-section li {
+    margin-bottom: 0.5rem;
+}
+
+.sitemap-section li a {
+    color: #eee;
+    text-decoration: none;
+}
+
+.sitemap-section li a:hover {
+    color: #F0A9B8;
+    text-decoration: underline;
+}
+
+/* Article List (section index pages) */
+.page-list {
+    margin-top: 2rem;
+}
+
+.page-list h2 {
+    color: #F0A9B8;
+    border-bottom: 2px solid #4e348a;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.article-list {
+    list-style: none;
+    padding: 0;
+}
+
+.article-list li {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #2d2842;
+    border-left: 4px solid #4e348a;
+    border-radius: 0.25rem;
+    transition: border-left-color 0.2s;
+}
+
+.article-list li:hover {
+    border-left-color: #F0A9B8;
+}
+
+.article-list a {
+    display: block;
+    text-decoration: none;
+}
+
+.article-title {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #F0A9B8;
+    margin-bottom: 0.5rem;
+}
+
+.article-summary {
+    display: block;
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.article-list a:hover .article-title {
+    text-decoration: underline;
+}
+
+/* Pagination (prev/next navigation) */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 0;
+}
+
+.pagination a {
+    color: #F0A9B8;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    background: #2d2842;
+    border-radius: 0.25rem;
+    transition: background 0.2s;
+}
+
+.pagination a:hover {
+    background: #4e348a;
+}
+
+.pagination .prev {
+    margin-right: auto;
+}
+
+.pagination .next {
+    margin-left: auto;
+}
+
+/* Page footer (back to top link) */
+.page-footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #252035;
+}
+
+.back-to-top {
+    color: #F0A9B8;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.back-to-top:hover {
+    text-decoration: underline;
+}
+
+/* Filenames for code blocks */
+dl.code,
+dl.file {
+    margin: 0.5rem 2rem 1rem 2rem;
+    max-width: 100%;
+}
+
+dl.code dt,
+dl.file dt {
+    background-color: #15121F;
+    border-radius: 0.5rem 0.5rem 0 0;
+    color: #ccc;
+    display: inline-block;
+    padding: 0.3em 0.5em;
+    margin-left: 0;
+    font-family: "Cascadia Code", Consolas, "Andale Mono WT", "Andale Mono", "Bitstream Vera Sans Mono", "Nimbus Mono L", Monaco, "Courier New", monospace;
+    font-size: 0.9em;
+}
+
+dl.code dd,
+dl.file dd {
+    margin: 0;
+}
+
+dl.code dd .highlight,
+dl.file dd .highlight {
+    margin: 0;
+    border-radius: 0 0.5rem 0.5rem 0.5rem;
+}
+
+/* Code blocks */
+pre,
+code,
+samp,
+kbd {
+    font-family: "Cascadia Code", Consolas, "Andale Mono WT", "Andale Mono", "Bitstream Vera Sans Mono", "Nimbus Mono L", Monaco, "Courier New", monospace;
+    font-size: 1em;
+    background-color: #15121F;
+    color: #ccc;
+    direction: ltr;
+    text-align: left;
+}
+
+pre {
+    margin: 0.5rem 2rem 1rem 2rem;
+    border: 1px solid #333;
+    border-radius: 0.5rem;
+    padding: 0.5em 1em;
+    overflow-x: auto;
+    overflow-y: visible;
+    word-wrap: normal;
+    line-height: 1.4;
+}
+
+/* Inline code */
+p code,
+li code,
+td code,
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code {
+    background-color: #15121F;
+    padding: 0.1em 0.3em;
+    border-radius: 0.25rem;
+}
+
+/* Remove padding for code inside syntax highlighted blocks */
+.highlight code {
+    padding: 0;
+    background-color: transparent;
+}
+
+/* Code blocks with syntax highlighting */
+.highlight {
+    margin: 0.5rem 2rem 1rem 2rem;
+    border-radius: 0.5rem;
+    background-color: #15121F;
+    overflow-x: auto;
+    overflow-y: visible;
+    max-width: 100%;
+}
+
+.highlight pre {
+    background: transparent;
+    border: none;
+    margin: 0;
+    padding: 0.5em 1em;
+    overflow: visible;
+}
+
+/* Override Chroma's background */
+.chroma {
+    background-color: #15121F;
+}
+
+/* Line numbers table - remove all borders and fix alignment */
+.highlight .lntable {
+    border-spacing: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    width: 100%;
+    max-width: 100%;
+    display: table;
+    table-layout: fixed;
+}
+
+.highlight .lntd {
+    padding: 0;
+    margin: 0;
+    border: 0 !important;
+    vertical-align: top;
+}
+
+/* Line numbers column */
+.highlight .lnt,
+.highlight .ln,
+.chroma .lnt,
+.chroma .ln {
+    color: #555;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    text-align: right;
+    display: block;
+}
+
+/* Line numbers column - fixed width */
+.highlight .lntd:first-child {
+    width: 4em;
+    white-space: nowrap;
+    text-align: right;
+}
+
+/* Code column */
+.highlight .lntd:last-child {
+    width: auto;
+}
+
+.highlight .lntd:last-child pre {
+    padding-left: 0;
+    white-space: pre;
+}
+

@@ -13,6 +13,12 @@ enableGitInfo = true
   # Allow raw HTML in markdown
   unsafe = true
 
+[markup.tableOfContents]
+  # Table of Contents configuration
+  startLevel = 2
+  endLevel = 4
+  ordered = false
+
 [markup.highlight]
   # Code highlighting
   codeFences = true

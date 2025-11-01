@@ -1,4 +1,6 @@
 {{ define "main" }}
+{{ partial "breadcrumbs.html" . }}
+
 <article>
     <h1>{{ .Title }}</h1>
 
@@ -18,19 +20,30 @@
     </div>
     {{ end }}
 
+    {{ if .TableOfContents }}
+    <div id="toc">
+        <h2>Table of Contents</h2>
+        {{ .TableOfContents }}
+    </div>
+    {{ end }}
+
     <div class="content">
         {{ .Content }}
     </div>
 
     {{ if or .PrevInSection .NextInSection }}
     <nav class="pagination">
-        {{ with .PrevInSection }}
+        {{ with .NextInSection }}
         <a href="{{ .RelPermalink }}" class="prev">← {{ .Title }}</a>
         {{ end }}
-        {{ with .NextInSection }}
+        {{ with .PrevInSection }}
         <a href="{{ .RelPermalink }}" class="next">{{ .Title }} →</a>
         {{ end }}
     </nav>
     {{ end }}
+
+    <div class="page-footer">
+        <a href="#nb-top" class="back-to-top">↑ Back to top</a>
+    </div>
 </article>
 {{ end }}

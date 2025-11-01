@@ -1,0 +1,46 @@
+{{ define "main" }}
+{{ partial "breadcrumbs.html" . }}
+
+<article>
+    <h1>{{ .Title }}</h1>
+
+    <div class="sitemap-content">
+        {{ $sections := slice }}
+        {{ range .Site.Sections }}
+            {{ $sections = $sections | append . }}
+        {{ end }}
+
+        {{ range sort $sections ".Title" }}
+        <section class="sitemap-section">
+            <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+            {{ if .Pages }}
+            <ul>
+                {{ range .Pages }}
+                {{ if not .Params.draft }}
+                <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+                {{ end }}
+                {{ end }}
+            </ul>
+            {{ else }}
+            <p><em>No articles yet</em></p>
+            {{ end }}
+        </section>
+        {{ end }}
+
+        <!-- Standalone pages -->
+        {{ $standalonePages := where .Site.RegularPages "Section" "" }}
+        {{ if $standalonePages }}
+        <section class="sitemap-section">
+            <h2>Other Pages</h2>
+            <ul>
+                {{ range $standalonePages }}
+                {{ if and (not .Params.draft) (not (in .RelPermalink "sitemap")) }}
+                <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+                {{ end }}
+                {{ end }}
+            </ul>
+        </section>
+        {{ end }}
+    </div>
+</article>
+{{ end }}

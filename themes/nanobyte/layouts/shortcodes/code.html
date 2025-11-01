@@ -1,0 +1,14 @@
+{{- $file := .Get "file" -}}
+{{- $lang := .Get "lang" | default "text" -}}
+{{- $content := .Inner -}}
+
+{{- if $file -}}
+<dl class="code">
+  <dt>{{ $file }}</dt>
+  <dd>
+    {{- highlight $content $lang "" -}}
+  </dd>
+</dl>
+{{- else -}}
+{{- highlight $content $lang "" -}}
+{{- end -}}

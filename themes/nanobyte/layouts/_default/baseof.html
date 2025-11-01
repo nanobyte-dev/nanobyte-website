@@ -11,6 +11,7 @@
 
     {{ $cssBasic := resources.Get "css/basic.css" }}
     {{ $cssContent := resources.Get "css/content.css" }}
+    {{ $cssSyntax := resources.Get "css/syntax.css" }}
 
     {{ if .Site.Params.legacyMode }}
         {{/* Legacy build - simplified CSS for old browsers */}}
@@ -19,6 +20,7 @@
         <link rel="stylesheet" href="{{ $cssBasic.RelPermalink }}">
         <link rel="stylesheet" href="{{ $cssStructure.RelPermalink }}">
         <link rel="stylesheet" href="{{ $cssDesign.RelPermalink }}">
+        <link rel="stylesheet" href="{{ $cssSyntax.RelPermalink }}">
         <link rel="stylesheet" href="{{ $cssContent.RelPermalink }}">
     {{ else }}
         {{/* Modern build - full CSS with flexbox, etc. */}}
@@ -28,6 +30,7 @@
         <link rel="stylesheet" href="{{ $cssBasic.RelPermalink }}">
         <link rel="stylesheet" href="{{ $cssStructure.RelPermalink }}">
         <link rel="stylesheet" href="{{ $cssDesign.RelPermalink }}">
+        <link rel="stylesheet" href="{{ $cssSyntax.RelPermalink }}">
         <link rel="stylesheet" href="{{ $cssContent.RelPermalink }}">
         <link rel="stylesheet" href="{{ $cssMobile.RelPermalink }}" media="screen and (max-width: 768px)">
     {{ end }}

@@ -3,15 +3,18 @@
  */
 
 body {
-    margin: 0 auto;
+    margin: 0;
+    padding: 0;
 }
 
 #nb-site {
-    min-width: 800px; /* prevent issues on old browsers */
+    width: 100%;
 }
 
 #nb-header {
     width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 #nb-footer {

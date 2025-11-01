@@ -1,33 +1,35 @@
 {{ define "main" }}
-<h1>{{ .Title }}</h1>
+{{ partial "breadcrumbs.html" . }}
 
-{{ with .Content }}
-<div class="intro">
-    {{ . }}
-</div>
-{{ end }}
+<article>
+    <h1>{{ .Title }}</h1>
 
-<div class="page-list">
-    {{ range .Pages }}
-    <article class="summary">
-        <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-
-        {{ if .Params.date }}
-        <div class="meta">
-            <time datetime="{{ .Date.Format "2006-01-02" }}">
-                {{ .Date.Format "January 2, 2006" }}
-            </time>
-        </div>
-        {{ end }}
-
-        {{ with .Summary }}
-        <div class="summary-text">
-            {{ . }}
-        </div>
-        {{ end }}
-
-        <a href="{{ .RelPermalink }}" class="read-more">Read more →</a>
-    </article>
+    {{ with .Content }}
+    <div class="intro">
+        {{ . }}
+    </div>
     {{ end }}
-</div>
+
+    {{ if .Pages }}
+    <div class="page-list">
+        <h2>Articles in this section</h2>
+        <ul class="article-list">
+            {{ range .Pages }}
+            {{ if not .Params.draft }}
+            <li>
+                <a href="{{ .RelPermalink }}">
+                    <span class="article-title">{{ .Title }}</span>
+                    {{ with .Summary }}
+                    <span class="article-summary">{{ . | truncate 150 }}</span>
+                    {{ end }}
+                </a>
+            </li>
+            {{ end }}
+            {{ end }}
+        </ul>
+    </div>
+    {{ else }}
+    <p><em>No articles in this section yet.</em></p>
+    {{ end }}
+</article>
 {{ end }}

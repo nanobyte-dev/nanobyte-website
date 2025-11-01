@@ -238,6 +238,29 @@
 	text-decoration: none;
 }
 
+.sidepanel nav ul li a.active {
+	background: #4e348a;
+	font-weight: bold;
+}
+
+/* Nested navigation */
+.sidepanel nav ul ul {
+	padding: 0;
+	margin: 0;
+	background: transparent;
+	border-radius: 0;
+}
+
+.sidepanel nav ul ul li a {
+	padding-left: 2.5rem;
+	font-size: 0.9rem;
+	color: #ccc !important;
+}
+
+.sidepanel nav ul ul li a:hover {
+	background: #3d3452;
+}
+
 .mode_admin .sidepanel a.action.admin,
 .mode_login .sidepanel a.action.login,
 .mode_register .sidepanel a.action.register,
@@ -348,6 +371,7 @@ div.license {
 .wrapper .main {
 	margin: 1em;
 	margin-left: 0;
+	margin-right: 2em;
 	flex-grow: 1;
 	min-height: 15rem;
 }

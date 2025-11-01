@@ -58,4 +58,6 @@ You can read more details about this subject on Wikipedia. In this tutorial, we 
 
 ## Some important instructions
 
-(This section is currently being written)
+{{< wip >}}
+This section is currently being written. The article covers the basics of x86 assembly syntax but is missing detailed instruction references.
+{{< /wip >}}

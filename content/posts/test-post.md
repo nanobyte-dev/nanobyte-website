@@ -1,7 +1,7 @@
 ---
 title: "Test Post"
 date: 2025-10-31
-draft: false
+draft: true
 tags: ["test"]
 ---
 

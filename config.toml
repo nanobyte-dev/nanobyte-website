@@ -13,6 +13,13 @@ enableGitInfo = true
   # Allow raw HTML in markdown
   unsafe = true
 
+[markup.goldmark.extensions.passthrough]
+  # Enable server-side LaTeX/math rendering with Hugo's transform.ToMath
+  enable = true
+  [markup.goldmark.extensions.passthrough.delimiters]
+    inline = [["$", "$"]]
+    block = [["$$", "$$"]]
+
 [markup.tableOfContents]
   # Table of Contents configuration
   startLevel = 2

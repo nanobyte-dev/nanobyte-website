@@ -7,10 +7,10 @@ FROM hugomods/hugo:exts AS hugo-builder
 WORKDIR /src
 COPY . .
 
-# Build modern version
+# Build modern version (with server-side LaTeX rendering via Hugo's transform.ToMath)
 RUN hugo --config config.toml --destination public/modern
 
-# Build legacy version
+# Build legacy version (with server-side LaTeX rendering via Hugo's transform.ToMath)
 RUN hugo --config config-legacy.toml --destination public/legacy
 
 # Stage 2: Build Go server

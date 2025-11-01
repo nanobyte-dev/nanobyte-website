@@ -1,0 +1,24 @@
+{{- /* Hugo native server-side LaTeX rendering using transform.ToMath */ -}}
+
+{{- $inner := .Inner -}}
+{{- $type := .Type -}}
+
+{{- if or (eq $type "inline") (eq $type "block") -}}
+  {{- /* Render LaTeX to HTML using Hugo's built-in KaTeX */ -}}
+  {{- $opts := dict
+    "output" "html"
+    "displayMode" (eq $type "block")
+    "throwOnError" false
+  -}}
+
+  {{- with transform.ToMath $inner $opts -}}
+    {{- if eq $type "block" -}}
+      <div class="math-block">{{ . | safeHTML }}</div>
+    {{- else -}}
+      <span class="math-inline">{{ . | safeHTML }}</span>
+    {{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{- /* Not a math block, just output as-is */ -}}
+  {{ .Inner }}
+{{- end -}}

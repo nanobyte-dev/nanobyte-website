@@ -1,0 +1,648 @@
+
+0:05
+hello and welcome this is part two of the building and operating system series today we'll learn how to load stuff from
+0:12
+a floppy disk before talking about today's topic i
+0:17
+would like to correct some mistakes i made in the first episode first of all i said that the movie
+0:22
+instruction moves from the left to the right which is incorrect move moves from right
+0:28
+to left you can think of it as an assignment in c the destination is on the left side and the source is on the right side
+0:36
+also in the referencing a memory location section i said that when the segment is not specified ds is used by
+0:43
+default this is mostly correct however as the viewer pointed out when the base register is bp ss will be
+0:50
+the default so far we've been limited to the first sector of a floppy disk which is 512
+0:57
+bytes this is very little space we haven't reached the limit yet but after today's
+1:03
+episode we won't be far from it so our number one priority is to implement some code which will load the
+1:09
+rest of the operating system into memory what this means is that we will have to
+1:14
+split our operating system in two modules the first one will load the second one
+1:21
+all operating systems are actually split this way because 512 bytes is not enough to fit even the most basic
+1:28
+functions of an operating system the first module is called a bootloader
+1:33
+and generally speaking it has several functions it loads the most essential components
+1:38
+of the operating system into memory it puts the computer in the state that the kernel expects it to be in
+1:45
+and it collects some basic information about the system depending on the operating system the
+1:50
+bootloader can be very simple or very complex older operating systems like ms-dos run
+1:57
+in 16-bit real mode the mode we're using right now so the bootloader's job was quite simple to
+2:03
+just load some binary and run it more modern operating systems typically expect the bootloader to make
+2:09
+the switch to 32-bit protected mode for them and also collect some system information
+2:14
+we haven't talked a lot about 32-bit protected mode yet but we will get there i promise
+2:20
+however one of its main limitations is that the bios functions that we talked about in part one
+2:25
+can no longer be used some of these functions are really important as they provide us with critical information for
+2:31
+example there is a function which shows us the memory layout which parts of the memory are safe to
+2:36
+use and which parts are reserved by hardware calling these functions is not possible once we are in 32-bit protected mode
+2:44
+so the responsibility falls upon the bootloader to collect all the required information before it starts the main kernel a note
+2:51
+here by not possible i mean possible but we need to set up a lot of stuff until we
+2:56
+get there and we need that information a lot sooner than that which is why i say it's not possible
+3:02
+now that we know what we're going to be working on let's talk a bit about floppy disks
+3:08
+why in the world are we talking about floppy disks in 2021 that's a very good question when getting
+3:15
+started working on an operating system a floppy disk is the simplest form of disk storage we can
+3:20
+work with it is universally supported by all bios's as well as all virtualization software
+3:26
+creating and working with disk images is very easy and the fetch 12 file system is
+3:31
+rudimentary simple all of these make it ideal for making operating systems at least until we learn the basics and
+3:38
+we can move to other storage devices the simplest way in which we could use a
+3:43
+disk would be to have the bootloader in the first sector or the boot sector and the rest of the operating system
+3:49
+starting from sector 2. this would be quite easy to implement our bootloader would
+3:55
+read a number of sectors into memory and then start executing them the problem with this
+4:00
+approach is that we wouldn't be able to use the disk for storing any files which is not very useful we could design
+4:07
+our own file system around that but it's probably a better idea to use an existing standard one like fat
+4:13
+or ext or ntfs so that we can easily exchange data between our operating
+4:18
+system and other operating systems like windows and linux
+4:24
+let's get back to the code and continue from where we left off in part one this time i decided to use viral
+4:31
+studio code as the editor with the x86 64 assembly extension installed
+4:37
+since we want to split our code into two modules let's do that right now i created two different directories in our
+4:43
+source directory one for the bootloader and one for the kernel i put the same source file that we
+4:49
+worked on in part 1 in both folders next we need to make some changes to our
+4:55
+makefile to keep things organized i declare some phony targets
+5:01
+this way we can keep our makefile cleaner by referring to various modules using their names rather than their
+5:07
+output file names then i added a rule to tail make that the phony floppy image target depends on
+5:13
+the actual file main floppy.img in the floppy image dependencies i
+5:20
+replaced the main.pin with the bootloader and the kernel targets
+5:26
+next i added the rules for building the bootloader the always target will be used for creating the build directory if it
+5:33
+doesn't exist so we don't get compilation errors if the directory doesn't exist for the
+5:38
+build rules it's really simple we just call nasm like we did before
+5:44
+for now to build a bootloader in the kernel the steps are identical so i just added the same rules for the kernel
+5:51
+next i created the always target which simply creates the build directory if it doesn't exist
+5:57
+and the clean target will simply delete everything in the build folder let's give this a go and see what
+6:04
+happens looks like we got an error when creating the flop image ah yes i forgot to change the file names
+6:11
+in the main floppy dot img rules talking about the floppy image let's modify the way we create the image
+6:18
+so that we actually create a fat12 disk image first we need to generate an empty 1.44
+6:25
+megabyte file we can do that using the dd command with the block size set to 512 and the block
+6:32
+counts set to 2880 the next step is to create the file
+6:38
+system using the mkfs.fat command the dash f12 argument tells you to use
+6:44
+fat12 and dash n is used for the label which doesn't really matter since we will
+6:50
+overwrite it anyway next we need to put the bootloader in the first sector of the disk
+6:55
+the simplest way to do that is to use the dd command with the conf equals no trunk option
+7:02
+which tells the denotes to truncate the file otherwise we will lose the rest of the image
+7:09
+now that we have a file system we can copy the files to the image one option could be to mount the image
+7:16
+but i don't really like doing that because we would have to run the image generation with elevated privileges
+7:22
+fortunately there's a collection of tools called mtools which contains a bunch of utilities that we can use
+7:28
+to manipulate fat disk images directly without having to mount them to copy the kernel.bin file to the disk
+7:36
+we can use the m-copy command
+7:44
+our make file is now finished so let's give it another go and we're getting another error now and
+7:52
+copy is complaining that the disk image is not valid what happened the issue here is that we
+7:58
+have overwritten the first sector of the image with our bootloader this section contains some important
+8:04
+headers used by fat12 so by overwriting them we have broken the file system
+8:09
+can we fix this yes we just need to add these headers to our bootloader
+8:15
+going to the article about the fat file system on the os dev wiki there's this section which describes all
+8:21
+the fields that are required for a valid fat file system what we need to do is add all of them to
+8:26
+our bootloader to help us figure out what the values of these headers should be
+8:32
+i have created a test.img disk image using the same steps as in the make file but without overwriting the boot sector
+8:43
+by opening the file using a hex editor we can figure out what the value of each field should be
+8:48
+set to
+8:56
+let's begin working on our bootloader looking at the documentation there are
+9:01
+two sections that we need to add each containing a number of fields the first one is called the bios parameter
+9:07
+block according to the documentation the first three bytes must be a short jump
+9:12
+instruction followed by a no op so we can start with that
+9:18
+next we have the oem identifier which is an 8 byte string that is typically set
+9:23
+by the tool used to format the disk looking at the image we created previously this has been set to
+9:30
+mkfs.phat theoretically we can put anything here but for maximum compatibility
+9:36
+we will just set it to ms win 4.1 the next field is a word indicating the
+9:42
+number of bytes per sector which for a standard 1.4 megabyte floppy
+9:47
+is 512 bytes here it is in the disk image as well
+9:53
+remember that this is little endian so to read the numbers correctly you have to read the bytes from right to
+9:59
+left in our case the value is 0 2 0 0 in hexadecimal which
+10:04
+in decimal is equal to 512. the number of sectors per cluster is 1.
+10:10
+the number of reserved sectors is also one the fat or the file allocation table
+10:16
+count is 2. the directory entry count is e0 in
+10:23
+hexadecimal the total number of sectors is 2880
+10:29
+which multiplied by 512 bytes gives us the 1.44 megabytes
+10:42
+the media descriptor type indicates what type of disk this is the value f0 hexadecimal indicates a 3.5
+10:50
+inch floppy disk the number of sectors per fat is 9. the
+10:56
+number of sectors per track is 18. the head count is two the hidden
+11:04
+sector count and the large sector count are both zero the next section is called the extended
+11:10
+boot record and contains a few extra fields first we have the drive number which should be
+11:16
+set to 0. this value is pretty much useless because moving the disk to a different
+11:21
+drive would make its value incorrect next we have one reserved point that should be simply set to zero
+11:29
+the signature should be set to either two eight hexadecimal or two nine hexadecimal
+11:35
+the volume id is basically a four byte serial number you can put anything you want here
+11:42
+the volume label is an 11 byte string you can put anything here as long as
+11:48
+it's padded with spaces
+11:55
+the system id is an 8 byte string which should be set to fat 12 also padded with spaces
+12:08
+now that we added all the required headers we can test if make works
+12:17
+and it does we can also verify that the disk contains our kernel by running the
+12:22
+mdir command
+12:28
+before beginning to implement our disk reading operation it is useful to understand how data is laid out on these
+12:34
+disks this applies to all form of disks floppy cds dvds
+12:39
+and hard drives looking at the round disc if we divide it into rings each ring
+12:45
+represents a track or a cylinder another way of dividing the platter is into pizza slices
+12:51
+these are called sectors floppy disks as well as hard disks can store data on
+12:56
+both sides of the platter so we call each side ahead hard disks
+13:01
+can also have multiple platters in which case we count each side of each platter as a head
+13:08
+to read or write something we need a way to tell this controller where our data is to read or write something we need a way
+13:15
+to tell the disk controller where our data is so we can do that by giving it the cylinder number the head number and the
+13:22
+sector number this addressing scheme is called cylinder head sector or chs scheme while this scheme might
+13:31
+make sense when you need to determine physically where the data is located on the disk it is not very useful for us when
+13:38
+working with disks we don't really care what the data is physically located we only care if it's
+13:43
+at the beginning of the disk or the middle or the end for that we can use the logical block
+13:48
+addressing scheme or lba instead of a triplet of numbers you only need one single number to reference a
+13:55
+block on the disk unfortunately the bios function we will use only supports chs addressing so we will have to make
+14:02
+the conversion ourselves another thing i'd like to mention is that in most modern disks
+14:07
+the physical layout of the data has gotten a lot more complex and these controllers only pretend to have
+14:13
+cylinders heads and sectors maintain compatibility with this legacy addressing scheme
+14:18
+but they have their own methods of determining the physical location of the data in the chs scheme the cylinder and head
+14:25
+are indexed from 0 but the sector starts from 1. taking this into consideration we can
+14:30
+come up with the following formulas for making the conversion we have two constants the number of
+14:37
+sectors per track or the number of sectors per cylinder meaning how many sectors we can fit
+14:44
+in a single track on a single side of the platter and the number of heads per cylinder which is simply the number of faces the
+14:50
+entire disk has the sector is obtained by taking the remainder of the logical block
+14:56
+address divided by the number of sectors per track and then adding one for the head we
+15:03
+perform the same division and this time we take the result and divide it again by the number of heads
+15:09
+per cylinder from which we take the remainder the cylinder is calculated by taking the
+15:15
+result of the last division that is the logical block address divided by the number of sectors per
+15:21
+track and then divided by the number of heads per cylinder
+15:26
+let's write this into assembly
+15:33
+we will write a function which will take the lba address in the ax register
+15:38
+and to make things easier for us we will store the result exactly how the bios function expects us
+15:44
+to so the cylinder will be in cx in bits 6 to 15
+15:49
+the sector will be in cx bits 0 to 5 and the head number will be in the dh
+15:55
+register we can begin by dividing the logical block address stored in ax
+16:01
+by the number of sectors per track that number is a word so we need to clear dx because the div
+16:07
+instruction divides dx ax to the world operand
+16:13
+after this division we will have the result in ax and the remainder in dx to finish
+16:19
+calculating the sector we need to increment the remainder by 1 and then we will put it in cx
+16:26
+which is where the output should be next we performed a second division to
+16:32
+the number of heads per cylinder this will give us the cylinder in ax and
+16:37
+the head in dx
+16:44
+now we just need to shuffle the results so they are in the correct output registers
+16:49
+since dl is the lower 8 bits of dx we can simply move from dl to the h
+16:55
+so that the head number is now in the h the cylinder is a bit weird because it
+17:01
+is split this is what the cx register should look like
+17:06
+so we need to move the lower eight bits into ch which is the upper half of cx for the
+17:12
+upper two bits we can shift them to the left by six positions and then or the result
+17:18
+to the cl register which already contains the sector number
+17:23
+now to be nice we will save the registers that we modify and are not part of the output so we
+17:29
+save ax and dl by pushing them to the stack and when everything is done restore them but since we can't push
+17:37
+8-bit registers to the stack we push the whole dx and when we pop we only restore
+17:42
+dl finally we can return from this method
+17:48
+next we will write a method that reads from a disk
+17:54
+as parameters we will have the logical block address into ax cl will contain the number of
+18:01
+sectors to read dl will point to the drive number and
+18:07
+esbx will point to a memory location where we will store the data
+18:14
+the first thing we need to do is call our conversion function but since the function will overwrite
+18:19
+the contents of cx which contains the number of sectors to read we should save it first by pushing
+18:26
+it to the stack
+18:32
+let's quickly look at the function we want to call the read sectors from drive function and check all the parameters cylinder
+18:40
+sector head drive and memory destination should already be set all that's left to do is set the number
+18:46
+of sectors to read in a l and 0 to hexadecimal in a h
+18:51
+the sector count is saved to the stack so we pop it into ax and then we set a h but now we can call
+19:00
+the interrupt 13h in a virtual environment this should work perfectly but unfortunately in the
+19:06
+real world floppy disks tend to be pretty unreliable to address that the documentation
+19:11
+recommends us to retry the read operation at least three times so let's add that first let's set the
+19:17
+number of times we want to retry in a register that we haven't used yet di and then begin a loop we don't really
+19:24
+know what registers the bios interrupt will overwrite so we save all of them to the stack using push a
+19:31
+there is also another quirk of some bioses that they don't properly set the carry flag so we set it ourselves
+19:38
+this is how we can check the result of the operation if the carry flag is cleared that means
+19:44
+that the operation has succeeded so we can jump out of the loop
+19:49
+now we can restore the registers using pop a
+19:57
+if the operation failed we need to reset the floppy controller so we will write a method to do that
+20:03
+next we decrement di and check the loop condition if the i is not yet zero we jump back to
+20:10
+the beginning of the loop
+20:16
+if we exit the loop that means that all of our attempts have been exhausted and the operation still failed so we
+20:23
+will jump to another place which will simply display an error message and stop the brute process
+20:50
+to make it nicer i call this coded calls interrupt 16h with the function 0 which waits for a
+20:57
+key press after which i jump to the address ffff
+21:03
+which is where the bio starts effectively rebooting the system
+21:12
+as a last thing i saved the registers that were modified to the stack and restore them before
+21:18
+returning
+21:28
+the disk reset method is really simple it only has one parameter the drive number in dl
+21:36
+all we need to do is call interrupt 13h with the ah register set to 0 this will
+21:43
+reset the disk controller if the operation fails just like before we jump to the same floppy error label
+21:50
+that prints the error message after writing all this code let's give
+21:55
+it a try and see if it works let's go back to the main function and try to read some data from the disk
+22:02
+the bios should set the drive number from which it loaded our bootloader in the dl register
+22:07
+i used that useless field that we talked about earlier to store its value then i set up the call of the discrete
+22:14
+function to read the second sector with
+22:24
+lba1
+22:40
+now let's compile and run our code i kept forgetting the command line for running the vm so i decided to create a
+22:46
+run.sh shell script which simply contains the camo command
+22:55
+and it looks like we have a problem the hello world message doesn't appear anymore so there is a box somewhere
+23:01
+i think now would be a great time to introduce another extremely useful tool which is called box
+23:07
+this is basically an emulator and debugger for an x86 processor and we can use it to debug our bootloader
+23:14
+to get it running we need to create a configuration file
+23:21
+first i set it to emulate the computer with 128 megs of ram then i gave it the path to the rom and
+23:27
+the vgaram images then i configured the flowpa drive to
+23:34
+contain our disk image with the status inserted
+23:42
+right now we don't need any mouse support so i disabled it i set the display library to sdl with
+23:49
+the option of the gui debugger box also has a command line debugger but i prefer the gui
+23:55
+the run box i created another shell script debug.sh which calls box with the configuration
+24:01
+file we just created when i tried to run box i encountered
+24:07
+some issues first of all it wasn't installed on my machine in addition to the box package i also
+24:13
+needed to install box sdl for the ui box bios and vga bios which
+24:19
+contain the roms after that i encountered another error that the display library sdl wasn't
+24:25
+available the fix for the issue was to set the display library to sdl2 instead of sdl
+24:35
+and now we see the box interface it's not very pretty but we can work
+24:42
+with it and it's going to help us a lot
+24:50
+okay so let's get everything ready so i'm going to have the code here somewhere
+24:58
+so we can see it like this and the display window
+25:06
+and now the debugging window okay so now box has started and it has set a
+25:11
+breakpoint right at the beginning of the bios what we're gonna do is we're going to go to view disassemble
+25:20
+and in this window we are going to put 7c 0 0.
+25:28
+7c00 is the address where our bootloader will be loaded so we are going to double
+25:34
+click it this will create a breakpoint and box will stop when it gets here
+25:40
+so now let's continue okay so this doesn't look valid to me
+25:46
+so let's go ahead and disassemble again and now this is correct so this would be
+25:53
+the jump short start instruction now step so what happened here the current
+26:01
+instruction highlight has disappeared well that's not something to worry about
+26:06
+because we have to go back to view disassemble and the new address is also the same one
+26:12
+as in the ip register and let's go there
+26:17
+okay so now we have reached this jump instruction let's
+26:23
+scroll down and see what happens after this jump of ours so we should be at the start label
+26:32
+and at the jump main instruction so let's go one more step and now we are in the
+26:39
+main label okay let's scroll down to the main label and now we can recognize the code so
+26:47
+let's go step by step and see what is happening
+26:53
+first we just set up a few registers and we wrote this into the memory
+27:00
+and then we are calling the discrete method the parameters look okay now here you
+27:08
+can see all the registers we don't have the ax and bx registers but we have
+27:14
+eax and ebx and ecx this is nothing to worry about because
+27:19
+in modern processors these registers are actually extended and now they're 32-bit not 16-bit
+27:27
+in order to just see the value of the ax register for example we just need to look at the last four
+27:34
+digits over here okay so let's move on uh now we are
+27:41
+have reached this call to the discrete method so let's step and we can go to the
+27:48
+discrete method right now first we have pushed a few things to the
+27:55
+stack so let's skip over those and now we are calling this lba2chs
+28:01
+method so let's step into it and see what happens
+28:07
+okay so first we pushed some stuff to the stack we can also see the stack
+28:14
+by going to view linear memory dump and we have to add here the address
+28:22
+in our case the top of the stack is 7b ec so we can do that
+28:29
+7 c 7 b e c and press ok and now we see the value
+28:36
+of the stack so now this is the logic that
+28:41
+performs the lba to chs conversion first we set the dx register to zero and
+28:49
+then we want to divide the lba address by the number of sectors per track
+28:55
+in our case ax is one so one divided by the sectors per track
+29:01
+which is 18 that will give us the result zero and the remainder will be one so
+29:07
+that is the case here you can see dx is one ax is zero okay
+29:14
+now we are increasing dx to calculate the sector and now we have the sector
+29:21
+which is two and if we moved it to cx we don't care about these
+29:26
+first four digits just the last four so we have two set to cx
+29:32
+okay now we have the second division
+29:39
+the values the values are zero so we can see that dx and ax are zero
+29:45
+and we have the logic that puts everything into the right registers and
+29:51
+we can see the cx register is just two the h is zero and the cylinder is zero
+29:59
+now we are popping the registers that we have pushed so we are restoring dl to its previous value
+30:07
+okay so dl is now zero and we are returning back to where we
+30:12
+came from so now we are going back to the discrete method and
+30:18
+we have reached this pop x
+30:23
+now let's go on so now we are preparing to call the 13h interrupt so let's see what happens
+30:32
+there okay so we have all the parameters ready if we look
+30:38
+into the documentation all the parameters should match now we have this interrupt 13 instruction if i click
+30:46
+on step it will take me into the bios where the in 13 interrupt is actually handled
+30:54
+we don't really care about that we just want to see the result so what i'm going to do is i'm going to set a breakpoint just
+31:00
+after this interrupt and i'm gonna press continue
+31:05
+and now we have reached this place this was the jump if not carry to the
+31:13
+down label and it looks like it jumps so it means that the operation succeeded
+31:18
+and now we have reached this done label and now we are popping all the registers
+31:25
+that we have pushed and here i found the mistake so instead of popping the idx and so on we have pushed them
+31:33
+we can fix that really easily and let me show you what happens if you mess up the stack so let's go
+31:38
+and skip these instructions and now we have reached this return
+31:44
+and if we click on step now we are at address 00201 what is this
+31:51
+i mean this is not where we should be so what is happening here is that the
+31:56
+return instruction expects the return address to be at the top of the stack but because we pushed instead of popping
+32:03
+the top of the stack contains something else not the return address the return instruction is simply
+32:09
+interpreting whatever it finds as the return headers which is why we ended up at the address 200 hexadecimal
+32:18
+so let's fix it and see what happens
+32:28
+okay so now that we have learned what the problem was we can actually stop box
+32:37
+make and now we can run using the run command we have created
+32:44
+and we have hello world and then read from this field
+32:49
+now i think i know what is happening here so it's not stopping that's the issue here so
+32:58
+yeah so we are just calling halt without stopping the interrupts without
+33:03
+disabling interrupts so whenever something happens like the clock ticks or
+33:09
+we move the mouse or we press a key the processor is interrupted
+33:15
+if we just hold without disabling interrupts the processor can still get out of this
+33:21
+hold and it can still continue executing even though we have told it to
+33:26
+stop so that's why we need to disable these interrupts so that's what we're gonna do and that
+33:33
+should solve this issue okay so let's just make and
+33:42
+run and now we are seeing the hello world message unfortunately we cannot see if the read
+33:49
+operation has actually succeeded now let's go back and use the box again
+33:57
+okay now we can continue
+34:04
+and we have reached a whole instruction i'm not really sure why nothing is being displayed here maybe
+34:10
+something is wrong with my configuration so let's break now go to view
+34:17
+linear memory dump let's set the address to 7e0 which is where we read the data
+34:24
+and now let's open the hex editor
+34:32
+and i'm going to open the floppy image
+34:38
+and let's go to address 200 and see and this looks like it matches to what
+34:45
+we have read this means that the read is working properly success
+34:51
+with this we have reached the end of part 2. before you go let me show you the nanobyte github page where you can
+34:57
+find all the source code that we have worked on i will put the link in the description below
+35:03
+in part three we will talk about the festival file system and how to read the files of our disk
+35:09
+thank you for watching and if you enjoyed the video don't forget to like share and subscribe
+35:14
+bye [Music]
+35:34
+you
+

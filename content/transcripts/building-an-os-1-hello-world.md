@@ -236,7 +236,7 @@ Finally, we put into AX the third element in the array, by referencing the memor
 
 ### Back to the OS - the initialization
 
-Back to our operating system, the code segment register has been set up for us by the BIOS and it points to segment 0. There are some BIOSes out there which actually jump to our code using a different segment and offset such 0x07C0:0x0000, but the standard behavior is to use 0x0000:0x7C00. We don't know if DS and ES are properly initialized, so this is what we have to do next. Since we can't write a constant directly to a segment register, we have to use an intermediary register; we will use AX. The MOV (move) instruction copies data from the source on the left side to the destination on the right side.
+Back to our operating system, the code segment register has been set up for us by the BIOS and it points to segment 0. There are some BIOSes out there which actually jump to our code using a different segment and offset such 0x07C0:0x0000, but the standard behavior is to use 0x0000:0x7C00. We don't know if DS and ES are properly initialized, so this is what we have to do next. Since we can't write a constant directly to a segment register, we have to use an intermediary register; we will use AX. The MOV (move) instruction copies data from the source on the right to the destination on the left.
 
 ```nasm
 main:

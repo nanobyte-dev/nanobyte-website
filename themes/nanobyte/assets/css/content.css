@@ -545,3 +545,46 @@ h6 code {
     margin-bottom: 0;
 }
 
+/*____________ Math rendering (KaTeX) ____________*/
+
+/* Block math (display mode) */
+.math-block {
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin: 1.5em 0;
+    padding: 0;
+    text-align: center;
+}
+
+/* Inline math */
+.math-inline {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* KaTeX base styles - copied from KaTeX minimal CSS */
+.katex {
+    font: normal 1.21em KaTeX_Main, "Times New Roman", serif;
+    line-height: 1.2;
+    text-indent: 0;
+    text-rendering: auto;
+}
+
+.katex * {
+    -ms-high-contrast-adjust: none !important;
+    border-color: currentColor;
+}
+
+.katex .katex-html {
+    display: inline-block;
+}
+
+/* Math error fallback */
+.math-error {
+    color: #F0A9B8;
+    border: 1px dashed #F0A9B8;
+    padding: 0.5em;
+    font-family: monospace;
+    background-color: rgba(240, 169, 184, 0.1);
+}
+

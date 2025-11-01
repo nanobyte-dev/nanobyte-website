@@ -289,6 +289,8 @@ Contributions are welcome! Please:
 - **Website:** [nanobyte.dev](https://nanobyte.dev)
 - **YouTube:** [@nanobyte-dev](https://www.youtube.com/@nanobyte-dev)
 - **Discord:** [Join our community](https://discord.gg/xNrRVXtsgs)
+- **GitHub:** [github.com/nanobyte-dev/nanobyte-website](https://github.com/nanobyte-dev/nanobyte-website)
+- **Patreon:** [Support us on Patreon](https://www.patreon.com/nanobyte)
 
 ## Credits
 

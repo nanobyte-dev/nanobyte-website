@@ -1,0 +1,15 @@
+{{- $pages := where .Site.RegularPages "Section" "!=" "" -}}
+{{- $searchIndex := slice -}}
+{{- range $pages -}}
+  {{- $content := .Plain | replaceRE "\\s+" " " | replaceRE "\\n" " " | strings.TrimSpace -}}
+  {{- if gt (len $content) 500 -}}
+    {{- $content = substr $content 0 500 -}}
+  {{- end -}}
+  {{- $searchIndex = $searchIndex | append (dict
+    "title" .Title
+    "url" .RelPermalink
+    "content" $content
+    "section" .Section
+  ) -}}
+{{- end -}}
+{{- dict "pages" $searchIndex | jsonify -}}

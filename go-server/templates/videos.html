@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: transparent;
+            color: #ccc;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .videos-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .video-card {
+            background: #2d2842;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .video-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+        }
+
+        .video-info {
+            padding: 15px;
+        }
+
+        .video-title {
+            color: #F0A9B8;
+            font-size: 1em;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .video-date {
+            color: #999;
+            font-size: 0.85em;
+        }
+
+        .no-videos {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        /* Fallback for legacy browsers */
+        @supports not (aspect-ratio: 16 / 9) {
+            .video-thumbnail {
+                height: 157px;
+            }
+        }
+    </style>
+</head>
+<body>
+    {{if .Videos}}
+    <div class="videos-container">
+        {{range .Videos}}
+        <a href="{{.URL}}" class="video-card" target="_blank" rel="noopener noreferrer">
+            <img src="{{.Thumbnail}}" alt="{{.Title}}" class="video-thumbnail" loading="lazy">
+            <div class="video-info">
+                <div class="video-title">{{.Title}}</div>
+                <div class="video-date">{{.Published.Format "Jan 2, 2006"}}</div>
+            </div>
+        </a>
+        {{end}}
+    </div>
+    {{else}}
+    <div class="no-videos">
+        <p>Subscribe to our <a href="https://www.youtube.com/@nanobyte-dev" target="_blank" rel="noopener noreferrer" style="color: #F0A9B8; text-decoration: none;">YouTube channel</a> for the latest videos!</p>
+        <p style="margin-top: 10px; font-size: 0.9em;">Video feed temporarily unavailable.</p>
+    </div>
+    {{end}}
+</body>
+</html>

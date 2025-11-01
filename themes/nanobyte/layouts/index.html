@@ -14,8 +14,10 @@
 
 <h2>Latest videos</h2>
 <div class="youtube-feed">
-    <!-- YouTube RSS feed would be rendered here via shortcode or JS -->
-    <p>Subscribe to our <a href="https://www.youtube.com/@nanobyte-dev">YouTube channel</a>!</p>
+    <iframe src="/api/latest-videos" style="width: 100%; min-height: 600px; border: none; background: transparent;" title="Latest YouTube Videos"></iframe>
+    <noscript>
+        <p>Subscribe to our <a href="https://www.youtube.com/@nanobyte-dev">YouTube channel</a>!</p>
+    </noscript>
 </div>
 
 {{ end }}

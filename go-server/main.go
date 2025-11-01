@@ -114,18 +114,33 @@ func loadAndIndexSearchData() error {
 	// Create Bleve index in memory
 	mapping := bleve.NewIndexMapping()
 
-	// Configure title to have higher weight
+	// Configure field mappings
 	titleFieldMapping := bleve.NewTextFieldMapping()
 	titleFieldMapping.Analyzer = "en"
+	titleFieldMapping.Store = true
+	titleFieldMapping.Index = true
 
 	contentFieldMapping := bleve.NewTextFieldMapping()
 	contentFieldMapping.Analyzer = "en"
+	contentFieldMapping.Store = true
+	contentFieldMapping.Index = true
 
+	urlFieldMapping := bleve.NewTextFieldMapping()
+	urlFieldMapping.Store = true
+	urlFieldMapping.Index = false // Don't search URLs
+
+	sectionFieldMapping := bleve.NewTextFieldMapping()
+	sectionFieldMapping.Store = true
+	sectionFieldMapping.Index = false // Don't search sections
+
+	// Create document mapping and set it as default
 	docMapping := bleve.NewDocumentMapping()
 	docMapping.AddFieldMappingsAt("title", titleFieldMapping)
 	docMapping.AddFieldMappingsAt("content", contentFieldMapping)
+	docMapping.AddFieldMappingsAt("url", urlFieldMapping)
+	docMapping.AddFieldMappingsAt("section", sectionFieldMapping)
 
-	mapping.AddDocumentMapping("page", docMapping)
+	mapping.DefaultMapping = docMapping
 
 	bleveIndex, err = bleve.NewMemOnly(mapping)
 	if err != nil {
@@ -219,11 +234,12 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 		</div>`
 
 		for _, result := range results {
-			// Find and highlight the search term in context
+			// Highlight search terms in title and content
+			highlightedTitle := highlightSearchTerms(result.Title, query)
 			excerpt := extractSearchContext(result.Content, query, 200)
 
 			resultsHTML += `<div class="result" style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 4px;">
-				<h2 style="margin-top: 0;"><a href="` + template.HTMLEscapeString(result.URL) + `">` + template.HTMLEscapeString(result.Title) + `</a></h2>`
+				<h2 style="margin-top: 0;"><a href="` + template.HTMLEscapeString(result.URL) + `">` + highlightedTitle + `</a></h2>`
 
 			if result.Section != "" {
 				resultsHTML += `<div class="result-section" style="color: #999; font-size: 0.9em; margin-bottom: 0.5rem; text-transform: capitalize;">` + template.HTMLEscapeString(result.Section) + `</div>`
@@ -241,6 +257,38 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.Write([]byte(page))
+}
+
+// highlightSearchTerms highlights all search terms in the text (for titles)
+func highlightSearchTerms(text, query string) string {
+	queryTerms := strings.Fields(strings.ToLower(query))
+
+	var result strings.Builder
+	lastPos := 0
+
+	// Find and highlight all occurrences of all query terms
+	for i := 0; i < len(text); i++ {
+		for _, term := range queryTerms {
+			termLower := strings.ToLower(term)
+			if i+len(term) <= len(text) && strings.ToLower(text[i:i+len(term)]) == termLower {
+				// Add text before match
+				result.WriteString(template.HTMLEscapeString(text[lastPos:i]))
+
+				// Add highlighted match
+				result.WriteString(`<mark style="background: #F0A9B8; color: #000; padding: 0 2px; border-radius: 2px;">`)
+				result.WriteString(template.HTMLEscapeString(text[i : i+len(term)]))
+				result.WriteString(`</mark>`)
+
+				lastPos = i + len(term)
+				i = lastPos - 1 // -1 because loop will increment
+				break
+			}
+		}
+	}
+
+	// Add remaining text
+	result.WriteString(template.HTMLEscapeString(text[lastPos:]))
+	return result.String()
 }
 
 // extractSearchContext finds the search query in content and returns highlighted excerpt

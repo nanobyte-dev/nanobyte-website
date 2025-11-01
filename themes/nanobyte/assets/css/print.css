@@ -17,7 +17,7 @@ video,
 #nb-sidebar,
 .nb .breadcrumbs,
 .nb .toc,
-#dw__toc,
+#nb-toc,
 #nb-pagetools,
 #nb-footer {
     display: none;

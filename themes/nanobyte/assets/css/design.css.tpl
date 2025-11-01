@@ -16,7 +16,7 @@
 {{- end }}
 }
 
-#nb-header .nb_logo {
+#nb-header .nb-logo {
 {{- if .Site.Params.legacyMode }}
     width: 100%;
     overflow: hidden;
@@ -27,7 +27,7 @@
 {{- end }}
 }
 
-#nb-header .nb_logo img {
+#nb-header .nb-logo img {
 {{- if .Site.Params.legacyMode }}
     display: block;
     width: 100%;
@@ -42,7 +42,7 @@
 {{- end }}
 }
 
-#nb-header .nb_nav {
+#nb-header .nb-nav {
 {{- if .Site.Params.legacyMode }}
     width: 100%;
     margin: 0.25rem 0 1.25rem 0;
@@ -53,7 +53,7 @@
 {{- end }}
 }
 
-#nb-header .nb_nav ul {
+#nb-header .nb-nav ul {
 {{- if .Site.Params.legacyMode }}
     margin: 0 auto;
     padding: 0;
@@ -67,7 +67,7 @@
 {{- end }}
 }
 
-#nb-header .nb_nav ul > li {
+#nb-header .nb-nav ul > li {
 {{- if .Site.Params.legacyMode }}
     display: inline;
     margin: 0 0.5rem;
@@ -77,19 +77,19 @@
 {{- end }}
 }
 
-#nb-header .nb_nav ul > li a {
+#nb-header .nb-nav ul > li a {
 	color: #ccc;
 {{- if .Site.Params.legacyMode }}
     text-decoration: none;
 {{- end }}
 }
 
-#nb-header .nb_nav ul > li a:hover {
+#nb-header .nb-nav ul > li a:hover {
 	color: yellow;
 }
 
 {{- if not .Site.Params.legacyMode }}
-#nb-header .nb_nav ul > li:not(:last-child):after {
+#nb-header .nb-nav ul > li:not(:last-child):after {
 	margin-left: 1rem;
 	color: #ccc;
 	opacity: .5;
@@ -131,11 +131,11 @@
     margin: .5em 0 0;
     display: block;
 }
-#nb-header form.search #qsearch__in {
+#nb-header form.search #nb-search-input {
     width: 12em;
     margin-right: .5em;
 }
-[dir=rtl] #nb-header form.search #qsearch__in {
+[dir=rtl] #nb-header form.search #nb-search-input {
     margin-right: 0;
     margin-left: .5em;
 }
@@ -356,14 +356,14 @@
 }
 
 /* search */
-#dw__search {
+#nb-search {
 	display: block;
 {{- if .Site.Params.legacyMode }}
     margin-bottom: 1rem;
 {{- end }}
 }
 
-#dw__search .no{
+#nb-search .no{
 {{- if .Site.Params.legacyMode }}
     width: 100%;
     white-space: nowrap;
@@ -373,7 +373,7 @@
 {{- end }}
 }
 
-#dw__search .no input.edit {
+#nb-search .no input.edit {
 {{- if .Site.Params.legacyMode }}
     width: 60%;
     background: #2d2842;
@@ -393,7 +393,7 @@
 {{- end }}
 }
 
-#dw__search .no button {
+#nb-search .no button {
 {{- if .Site.Params.legacyMode }}
     background: #4e348a;
     border: 1px solid #333;
@@ -414,7 +414,7 @@
 {{- end }}
 }
 
-#dw__search .no button:hover {
+#nb-search .no button:hover {
 	background: #6a4eaa;
 {{- if not .Site.Params.legacyMode }}
 	box-shadow: 0 0 .35rem #111;
@@ -422,7 +422,7 @@
 }
 
 {{- if not .Site.Params.legacyMode }}
-#dw__search .no button:focus {
+#nb-search .no button:focus {
 	background: #422d71;
 	box-shadow: none;
 }
@@ -430,7 +430,7 @@
 
 /* toc */
 
-#dw__toc {
+#nb-toc {
 	margin: 0 0 1rem 1rem;
 	padding: .25rem;
 	width: 16rem;
@@ -1002,16 +1002,16 @@ select:focus, select:target {
 	color: #eee;
 }
 
-.tool__bar button, input[type="button"] {
+.nb-tool-bar button, input[type="button"] {
 	border-radius: 0;
 	margin: 0;
 }
 
-.tool__bar button:first-child, input[type="button"]:first-child {
+.nb-tool-bar button:first-child, input[type="button"]:first-child {
 	border-radius: .25rem 0 0 .25rem;
 }
 
-.tool__bar button:last-child, input[type="button"]:last-child {
+.nb-tool-bar button:last-child, input[type="button"]:last-child {
 	border-radius: 0 .25rem .25rem 0;
 }
 

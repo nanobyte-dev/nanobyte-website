@@ -56,7 +56,7 @@
 
 /*____________ images ____________*/
 
-/* embedded images (styles are already partly set in DokuWiki's lib/styles/all.css) */
+/* embedded images */
 .nb img.media {
     margin: .2em 0;
 }
@@ -129,30 +129,6 @@
 .nb dl.file pre,
 .nb dl.file dt {
     border-color: #eee;
-}
-
-
-/*____________ media manager ____________*/
-
-/* some headings in the media manager should not look like headings */
-#mediamanager__page h2,
-#mediamanager__page h3 {
-    font-family: Frutiger, Calibri, Myriad, "Nimbus Sans L", Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #ccc;
-}
-
-/* to style button-like div in _fileuploader.css to look like other buttons,
-   please add '.qq-upload-button' to the according styles (which don't really exist in this template) */
-.qq-upload-button {
-    border: 1px solid #333;
-    background-color: #1e1a2d;
-    padding: 0.125em 0.4em;
-}
-
-/*____________ styling plugin ____________*/
-
-#plugin__styling.ispopup {
-    padding: 1em;
 }
 
 

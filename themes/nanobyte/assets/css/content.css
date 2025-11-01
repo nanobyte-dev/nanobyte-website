@@ -1,8 +1,5 @@
 /**
- * This file provides the main design styles for the page content.
- *
- * @author Anika Henke <anika@selfthinker.org>
- * @author Andreas Gohr <andi@splitbrain.org>
+ * Main design styles for page content.
  */
 
 
@@ -544,5 +541,31 @@ h6 code {
 .highlight .lntd:last-child pre {
     padding-left: 0;
     white-space: pre;
+}
+
+/*____________ WIP notice banner ____________*/
+
+.wip-notice {
+    background: #2d2842;
+    border-left: 4px solid #F0A9B8;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0.5rem;
+}
+
+.wip-notice strong {
+    color: #F0A9B8;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1.1em;
+}
+
+.wip-notice p {
+    margin: 0;
+    color: #ccc;
+}
+
+.wip-notice p:last-child {
+    margin-bottom: 0;
 }
 

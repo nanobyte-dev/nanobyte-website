@@ -1,20 +1,32 @@
 /**
- * This file provides styles for the general layout structure.
- *
- * @author Anika Henke <anika@selfthinker.org>
+ * General layout structure styles.
+ * Template-based CSS for both modern and legacy builds.
  */
 
 body {
+{{- if .Site.Params.legacyMode }}
+    margin: 0;
+    padding: 0;
+{{- else }}
     margin: 0 auto;
+{{- end }}
 }
 
 #nb-site {
+{{- if .Site.Params.legacyMode }}
+    width: 100%;
+{{- end }}
 }
 
 #nb-site > .site {
 }
 
 #nb-header {
+{{- if .Site.Params.legacyMode }}
+    width: 100%;
+    margin: 0;
+    padding: 0;
+{{- end }}
 }
 #nb-header > .pad {
 }
@@ -36,10 +48,28 @@ body {
 
 #nb-footer {
     clear: both;
+{{- if .Site.Params.legacyMode }}
+    width: 100%;
+{{- end }}
 }
 #nb-footer > .pad {
 }
 
+{{- if .Site.Params.legacyMode }}
+/* Simple column system using floats */
+.container-row {
+    width: 100%;
+    overflow: hidden; /* clearfix */
+}
+
+.container-row:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+{{- else }}
 .container-row {
 	display: flex;
 	flex-flow: row nowrap;
@@ -56,3 +86,4 @@ body {
 .col-10 { flex-grow: 10; }
 .col-11 { flex-grow: 11; }
 .col-12 { flex-grow: 12; }
+{{- end }}

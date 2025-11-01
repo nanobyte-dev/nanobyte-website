@@ -1,11 +1,5 @@
 /**
- * This file provides the most basic styles.
- *
- * If you integrate DokuWiki into another project, you might either
- * want to integrate this file into the other project as well, or use
- * the other project's basic CSS for DokuWiki instead of this one.
- *
- * @author Anika Henke <anika@selfthinker.org>
+ * Basic styles and resets.
  */
 
 /*@font-face {

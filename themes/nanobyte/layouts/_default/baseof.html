@@ -13,25 +13,22 @@
     {{ $cssContent := resources.Get "css/content.css" }}
     {{ $cssSyntax := resources.Get "css/syntax.css" }}
 
-    {{ if .Site.Params.legacyMode }}
-        {{/* Legacy build - simplified CSS for old browsers */}}
-        {{ $cssStructure := resources.Get "css/structure-legacy.css" }}
-        {{ $cssDesign := resources.Get "css/design-legacy.css" }}
-        <link rel="stylesheet" href="{{ $cssBasic.RelPermalink }}">
-        <link rel="stylesheet" href="{{ $cssStructure.RelPermalink }}">
-        <link rel="stylesheet" href="{{ $cssDesign.RelPermalink }}">
-        <link rel="stylesheet" href="{{ $cssSyntax.RelPermalink }}">
-        <link rel="stylesheet" href="{{ $cssContent.RelPermalink }}">
-    {{ else }}
-        {{/* Modern build - full CSS with flexbox, etc. */}}
-        {{ $cssStructure := resources.Get "css/structure.css" }}
-        {{ $cssDesign := resources.Get "css/design.css" }}
+    {{/* Process template CSS files with conditionals */}}
+    {{ $cssStructureTpl := resources.Get "css/structure.css.tpl" }}
+    {{ $cssStructure := $cssStructureTpl | resources.ExecuteAsTemplate "css/structure.css" . }}
+
+    {{ $cssDesignTpl := resources.Get "css/design.css.tpl" }}
+    {{ $cssDesign := $cssDesignTpl | resources.ExecuteAsTemplate "css/design.css" . }}
+
+    <link rel="stylesheet" href="{{ $cssBasic.RelPermalink }}">
+    <link rel="stylesheet" href="{{ $cssStructure.RelPermalink }}">
+    <link rel="stylesheet" href="{{ $cssDesign.RelPermalink }}">
+    <link rel="stylesheet" href="{{ $cssSyntax.RelPermalink }}">
+    <link rel="stylesheet" href="{{ $cssContent.RelPermalink }}">
+
+    {{ if not .Site.Params.legacyMode }}
+        {{/* Mobile CSS only for modern builds */}}
         {{ $cssMobile := resources.Get "css/mobile.css" }}
-        <link rel="stylesheet" href="{{ $cssBasic.RelPermalink }}">
-        <link rel="stylesheet" href="{{ $cssStructure.RelPermalink }}">
-        <link rel="stylesheet" href="{{ $cssDesign.RelPermalink }}">
-        <link rel="stylesheet" href="{{ $cssSyntax.RelPermalink }}">
-        <link rel="stylesheet" href="{{ $cssContent.RelPermalink }}">
         <link rel="stylesheet" href="{{ $cssMobile.RelPermalink }}" media="screen and (max-width: 768px)">
     {{ end }}
 

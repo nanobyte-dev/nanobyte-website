@@ -31,6 +31,12 @@ Thumbs.db
 Dockerfile
 .dockerignore
 docker-compose.yml
+docker-compose.prod.yml
 
 # CI/CD files
 .github/
+
+# Deployment files
+deploy.sh
+.env.deploy
+.env.deploy.example

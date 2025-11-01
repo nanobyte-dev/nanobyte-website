@@ -16,3 +16,6 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.bak
+
+# Deployment configuration (contains sensitive server info)
+.env.deploy

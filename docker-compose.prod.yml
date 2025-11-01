@@ -1,0 +1,20 @@
+services:
+  nanobyte-site:
+    image: ${DOCKER_IMAGE:-nanobyte-site:latest}
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    container_name: nanobyte-site
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    networks:
+      - default
+      - mainproxy_net
+
+networks:
+  mainproxy_net:
+    external: true

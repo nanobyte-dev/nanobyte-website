@@ -370,6 +370,56 @@ curl -I http://localhost:8080/
 - Health check endpoint at `/health`
 - Version detection endpoint at `/version`
 
+### Deploying to Production
+
+The project includes a deployment script for SSH-based deployment.
+
+#### Initial Setup
+
+1. Copy the deployment configuration template:
+   ```bash
+   cp .env.deploy.example .env.deploy
+   ```
+
+2. Edit `.env.deploy` with your server details:
+   ```bash
+   DEPLOY_USER=your-username
+   DEPLOY_HOST=nanobyte.dev
+   DEPLOY_PATH=/var/www/nanobyte-site
+   ```
+
+3. Ensure you have SSH key authentication set up (add to `~/.ssh/config` if needed).
+
+#### Deploying
+
+Run the deployment script:
+
+```bash
+./deploy.sh
+```
+
+This will:
+1. Sync all files to the server via rsync (excludes git, build artifacts, etc.)
+2. SSH to the server
+3. Build the Docker image on the server
+4. Restart the container with `docker compose up -d --build`
+5. Show the container status
+
+#### Manual Deployment
+
+If you prefer to deploy manually:
+
+```bash
+# 1. Sync files to server
+rsync -avz --exclude '.git' --exclude 'public/' ./ user@server:/path/to/site/
+
+# 2. SSH to server and build
+ssh user@server 'cd /path/to/site && docker compose up -d --build'
+
+# 3. Check logs
+ssh user@server 'cd /path/to/site && docker compose logs -f'
+```
+
 ## License
 
 This project uses dual licensing:

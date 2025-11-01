@@ -39,6 +39,15 @@ jobs:
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
             docker load
 
+      - name: Stop and remove existing containers
+        run: |
+          ssh -i ~/.ssh/deploy_key \
+            -p ${{ secrets.DEPLOY_PORT }} \
+            -o StrictHostKeyChecking=no \
+            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
+            "cd ${{ secrets.DEPLOY_PATH }} && \
+             docker compose down --remove-orphans || true"
+
       - name: Copy docker-compose configuration
         run: |
           scp -i ~/.ssh/deploy_key \
@@ -55,7 +64,6 @@ jobs:
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
             "cd ${{ secrets.DEPLOY_PATH }} && \
              export DOCKER_IMAGE=nanobyte-site:latest && \
-             docker compose down && \
              docker compose up -d"
 
       - name: Verify deployment

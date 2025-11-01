@@ -6,7 +6,7 @@ outputs: ["html"]
 url: "/search-template.html"
 sitemap:
   disable: true
-_build:
+build:
   list: false
   render: true
   publishResources: false

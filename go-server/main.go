@@ -11,6 +11,9 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"github.com/blevesearch/bleve/v2"
+	"github.com/blevesearch/bleve/v2/search/query"
 )
 
 type SearchIndex struct {
@@ -48,6 +51,7 @@ type Video struct {
 
 var (
 	searchIndex SearchIndex
+	bleveIndex bleve.Index
 	cachedVideos []Video
 	lastVideoFetch time.Time
 	templates *template.Template
@@ -73,9 +77,9 @@ func main() {
 		log.Fatal("Error loading search page template:", err)
 	}
 
-	// Load search index
-	if err := loadSearchIndex(); err != nil {
-		log.Printf("Warning: Could not load search index: %v", err)
+	// Load and index search data
+	if err := loadAndIndexSearchData(); err != nil {
+		log.Fatal("Error loading search index:", err)
 	}
 
 	// HTTP handlers
@@ -96,15 +100,94 @@ func loadSearchPageTemplate() error {
 	return nil
 }
 
-func loadSearchIndex() error {
-	file, err := os.Open("/app/search-index.json")
+func loadAndIndexSearchData() error {
+	// Load JSON data
+	file, err := os.ReadFile("/app/search-index.json")
 	if err != nil {
 		return err
 	}
-	defer file.Close()
 
-	decoder := json.NewDecoder(file)
-	return decoder.Decode(&searchIndex)
+	if err := json.Unmarshal(file, &searchIndex); err != nil {
+		return err
+	}
+
+	// Create Bleve index in memory
+	mapping := bleve.NewIndexMapping()
+
+	// Configure title to have higher weight
+	titleFieldMapping := bleve.NewTextFieldMapping()
+	titleFieldMapping.Analyzer = "en"
+
+	contentFieldMapping := bleve.NewTextFieldMapping()
+	contentFieldMapping.Analyzer = "en"
+
+	docMapping := bleve.NewDocumentMapping()
+	docMapping.AddFieldMappingsAt("title", titleFieldMapping)
+	docMapping.AddFieldMappingsAt("content", contentFieldMapping)
+
+	mapping.AddDocumentMapping("page", docMapping)
+
+	bleveIndex, err = bleve.NewMemOnly(mapping)
+	if err != nil {
+		return err
+	}
+
+	// Index all pages
+	for i, page := range searchIndex.Pages {
+		if err := bleveIndex.Index(fmt.Sprintf("page_%d", i), page); err != nil {
+			return err
+		}
+	}
+
+	log.Printf("Indexed %d pages", len(searchIndex.Pages))
+	return nil
+}
+
+// bleveSearch performs full-text search using Bleve
+func bleveSearch(queryStr string) []Page {
+	// Create a boosted query for title
+	titleQuery := query.NewMatchQuery(queryStr)
+	titleQuery.SetField("title")
+	titleQuery.SetBoost(10.0) // Title matches score 10x higher
+
+	// Create a query for content
+	contentQuery := query.NewMatchQuery(queryStr)
+	contentQuery.SetField("content")
+
+	// Create fuzzy query for typo tolerance
+	fuzzyQuery := query.NewFuzzyQuery(queryStr)
+
+	// Combine with disjunction (OR) - at least one must match
+	combinedQuery := query.NewDisjunctionQuery([]query.Query{
+		titleQuery,
+		contentQuery,
+		fuzzyQuery,
+	})
+	combinedQuery.SetMin(1)
+
+	searchRequest := bleve.NewSearchRequest(combinedQuery)
+	searchRequest.Size = 100 // Return up to 100 results
+	searchRequest.Fields = []string{"*"}
+
+	searchResults, err := bleveIndex.Search(searchRequest)
+	if err != nil {
+		log.Printf("Search error: %v", err)
+		return nil
+	}
+
+	// Convert results back to Pages
+	var results []Page
+	for _, hit := range searchResults.Hits {
+		// Find the original page by matching URL or title
+		for _, page := range searchIndex.Pages {
+			if page.URL == hit.Fields["url"] || page.Title == hit.Fields["title"] {
+				results = append(results, page)
+				break
+			}
+		}
+	}
+
+	return results
 }
 
 func handleSearch(w http.ResponseWriter, r *http.Request) {
@@ -112,13 +195,7 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 
 	var results []Page
 	if query != "" {
-		queryLower := strings.ToLower(query)
-		for _, page := range searchIndex.Pages {
-			if strings.Contains(strings.ToLower(page.Title), queryLower) ||
-			   strings.Contains(strings.ToLower(page.Content), queryLower) {
-				results = append(results, page)
-			}
-		}
+		results = bleveSearch(query)
 	}
 
 	// Generate results HTML
@@ -142,10 +219,8 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 		</div>`
 
 		for _, result := range results {
-			excerpt := result.Content
-			if len(excerpt) > 300 {
-				excerpt = excerpt[:300] + "..."
-			}
+			// Find and highlight the search term in context
+			excerpt := extractSearchContext(result.Content, query, 200)
 
 			resultsHTML += `<div class="result" style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 4px;">
 				<h2 style="margin-top: 0;"><a href="` + template.HTMLEscapeString(result.URL) + `">` + template.HTMLEscapeString(result.Title) + `</a></h2>`
@@ -154,7 +229,7 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 				resultsHTML += `<div class="result-section" style="color: #999; font-size: 0.9em; margin-bottom: 0.5rem; text-transform: capitalize;">` + template.HTMLEscapeString(result.Section) + `</div>`
 			}
 
-			resultsHTML += `<div class="result-excerpt" style="color: #ccc;">` + template.HTMLEscapeString(excerpt) + `</div>
+			resultsHTML += `<div class="result-excerpt" style="color: #ccc;">` + excerpt + `</div>
 			</div>`
 		}
 	}
@@ -166,6 +241,89 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.Write([]byte(page))
+}
+
+// extractSearchContext finds the search query in content and returns highlighted excerpt
+func extractSearchContext(content, query string, contextLen int) string {
+	contentLower := strings.ToLower(content)
+	queryLower := strings.ToLower(query)
+
+	// Find the first occurrence of the query
+	index := strings.Index(contentLower, queryLower)
+
+	if index == -1 {
+		// Query not found in content (shouldn't happen, but fallback)
+		if len(content) > contextLen {
+			return template.HTMLEscapeString(content[:contextLen]) + "..."
+		}
+		return template.HTMLEscapeString(content)
+	}
+
+	// Calculate context window
+	start := index - contextLen/2
+	if start < 0 {
+		start = 0
+	}
+
+	end := index + len(query) + contextLen/2
+	if end > len(content) {
+		end = len(content)
+	}
+
+	// Adjust to word boundaries
+	if start > 0 {
+		// Find the next space after start
+		for start < len(content) && content[start] != ' ' {
+			start++
+		}
+		start++ // Skip the space
+	}
+
+	if end < len(content) {
+		// Find the previous space before end
+		for end > start && content[end] != ' ' {
+			end--
+		}
+	}
+
+	excerpt := content[start:end]
+
+	// Build the highlighted excerpt
+	var result strings.Builder
+	if start > 0 {
+		result.WriteString("...")
+	}
+
+	// Replace all occurrences of query with highlighted version (case-insensitive)
+	excerptLower := strings.ToLower(excerpt)
+	lastPos := 0
+
+	for {
+		pos := strings.Index(excerptLower[lastPos:], queryLower)
+		if pos == -1 {
+			break
+		}
+		pos += lastPos
+
+		// Add text before match (escaped)
+		result.WriteString(template.HTMLEscapeString(excerpt[lastPos:pos]))
+
+		// Add highlighted match
+		result.WriteString(`<mark style="background: #F0A9B8; color: #000; padding: 0 2px; border-radius: 2px;">`)
+		result.WriteString(template.HTMLEscapeString(excerpt[pos : pos+len(query)]))
+		result.WriteString(`</mark>`)
+
+		lastPos = pos + len(query)
+	}
+
+	// Add remaining text (escaped)
+	result.WriteString(template.HTMLEscapeString(excerpt[lastPos:]))
+
+	if end < len(content) {
+		result.WriteString("...")
+	}
+
+	return result.String()
 }
 
 func handleLatestVideos(w http.ResponseWriter, r *http.Request) {

@@ -372,9 +372,37 @@ curl -I http://localhost:8080/
 
 ### Deploying to Production
 
-The project includes a deployment script for SSH-based deployment.
+#### Automated Deployment (GitHub Actions)
 
-#### Initial Setup
+**Recommended:** The site automatically deploys when you push to the `main` branch.
+
+**Setup (one-time):**
+
+Configure GitHub Secrets in your repository (`Settings` → `Secrets and variables` → `Actions`):
+
+- `DEPLOY_HOST` - Server hostname (e.g., `srv.tibich.com`)
+- `DEPLOY_USER` - SSH username (e.g., `tibi`)
+- `DEPLOY_PATH` - Deployment directory (e.g., `~/NewServer/Nanobyte`)
+- `SSH_PRIVATE_KEY` - Your SSH private key for authentication
+
+See [.github/DEPLOYMENT.md](.github/DEPLOYMENT.md) for detailed setup instructions.
+
+**Deploy:**
+```bash
+git push origin main
+```
+
+The workflow will:
+1. Build the Docker image
+2. Transfer to server via SSH
+3. Deploy with docker compose
+4. Verify deployment
+
+You can also manually trigger deployment from the GitHub Actions tab.
+
+#### Manual Deployment Script
+
+For local testing or manual deployments:
 
 1. Copy the deployment configuration template:
    ```bash
@@ -388,37 +416,17 @@ The project includes a deployment script for SSH-based deployment.
    DEPLOY_PATH=/var/www/nanobyte-site
    ```
 
-3. Ensure you have SSH key authentication set up (add to `~/.ssh/config` if needed).
-
-#### Deploying
-
-Run the deployment script:
-
-```bash
-./deploy.sh
-```
+3. Run the deployment script:
+   ```bash
+   ./deploy.sh
+   ```
 
 This will:
-1. Sync all files to the server via rsync (excludes git, build artifacts, etc.)
-2. SSH to the server
-3. Build the Docker image on the server
-4. Restart the container with `docker compose up -d --build`
-5. Show the container status
-
-#### Manual Deployment
-
-If you prefer to deploy manually:
-
-```bash
-# 1. Sync files to server
-rsync -avz --exclude '.git' --exclude 'public/' ./ user@server:/path/to/site/
-
-# 2. SSH to server and build
-ssh user@server 'cd /path/to/site && docker compose up -d --build'
-
-# 3. Check logs
-ssh user@server 'cd /path/to/site && docker compose logs -f'
-```
+1. Build the Docker image locally
+2. Transfer image to server via SSH (`docker save | ssh | docker load`)
+3. Copy docker-compose configuration
+4. Restart the container
+5. Show deployment status
 
 ## License
 

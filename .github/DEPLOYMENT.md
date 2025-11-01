@@ -14,15 +14,19 @@ You need to configure the following secrets in your GitHub repository:
    - Description: Server hostname or IP address
    - Example: `srv.tibich.com`
 
-2. **`DEPLOY_USER`**
+2. **`DEPLOY_PORT`**
+   - Description: SSH port number
+   - Example: `22` (default) or your custom port
+
+3. **`DEPLOY_USER`**
    - Description: SSH username on the server
    - Example: `tibi`
 
-3. **`DEPLOY_PATH`**
+4. **`DEPLOY_PATH`**
    - Description: Path on server where the site will be deployed
    - Example: `/home/tibi/NewServer/Nanobyte`
 
-4. **`SSH_PRIVATE_KEY`**
+5. **`SSH_PRIVATE_KEY`**
    - Description: Private SSH key for authentication
    - How to get: Run `cat ~/.ssh/id_rsa` (or your key file) and copy the entire output including `-----BEGIN/END-----` lines
    - **Important:** Never commit this to the repository!

@@ -381,6 +381,7 @@ curl -I http://localhost:8080/
 Configure GitHub Secrets in your repository (`Settings` → `Secrets and variables` → `Actions`):
 
 - `DEPLOY_HOST` - Server hostname (e.g., `srv.tibich.com`)
+- `DEPLOY_PORT` - SSH port number (e.g., `22` or custom port)
 - `DEPLOY_USER` - SSH username (e.g., `tibi`)
 - `DEPLOY_PATH` - Deployment directory (e.g., `~/NewServer/Nanobyte`)
 - `SSH_PRIVATE_KEY` - Your SSH private key for authentication

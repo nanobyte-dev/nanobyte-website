@@ -9,6 +9,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://nanobyte.dev
 
     steps:
       - name: Checkout code
@@ -25,12 +28,13 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.DEPLOY_PORT }} -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
 
       - name: Transfer Docker image to server
         run: |
           docker save nanobyte-site:latest | \
           ssh -i ~/.ssh/deploy_key \
+            -p ${{ secrets.DEPLOY_PORT }} \
             -o StrictHostKeyChecking=no \
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
             docker load
@@ -38,6 +42,7 @@ jobs:
       - name: Copy docker-compose configuration
         run: |
           scp -i ~/.ssh/deploy_key \
+            -P ${{ secrets.DEPLOY_PORT }} \
             -o StrictHostKeyChecking=no \
             docker-compose.prod.yml \
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}/docker-compose.yml
@@ -45,6 +50,7 @@ jobs:
       - name: Deploy on server
         run: |
           ssh -i ~/.ssh/deploy_key \
+            -p ${{ secrets.DEPLOY_PORT }} \
             -o StrictHostKeyChecking=no \
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
             "cd ${{ secrets.DEPLOY_PATH }} && \
@@ -55,6 +61,7 @@ jobs:
       - name: Verify deployment
         run: |
           ssh -i ~/.ssh/deploy_key \
+            -p ${{ secrets.DEPLOY_PORT }} \
             -o StrictHostKeyChecking=no \
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
             "cd ${{ secrets.DEPLOY_PATH }} && docker compose ps"

@@ -1,6 +1,6 @@
 name = "Nanobyte"
-license = "GPL-2.0"
-licenselink = "https://www.gnu.org/licenses/gpl-2.0.html"
+license = "MIT"
+licenselink = "https://opensource.org/licenses/MIT"
 description = "The Nanobyte site theme"
 homepage = "https://nanobyte.dev"
 tags = ["blog", "technical", "os-development"]

@@ -38,8 +38,9 @@ COPY --from=hugo-builder /src/public /usr/share/nginx/html
 COPY --from=go-builder /build/server /app/server
 COPY --from=go-builder /build/templates /app/templates
 
-# Copy search index to Go server location
+# Copy search index and template to Go server location
 COPY --from=hugo-builder /src/public/modern/index.json /app/search-index.json
+COPY --from=hugo-builder /src/public/modern/search-template.html /app/search-template.html
 
 # Create supervisord configuration
 RUN echo '[supervisord]' > /etc/supervisord.conf && \

@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"encoding/xml"
+	"fmt"
 	"html/template"
 	"io"
 	"log"
@@ -50,6 +51,7 @@ var (
 	cachedVideos []Video
 	lastVideoFetch time.Time
 	templates *template.Template
+	searchPageTemplate string
 )
 
 const (
@@ -66,6 +68,11 @@ func main() {
 		log.Fatal("Error loading templates:", err)
 	}
 
+	// Load Hugo-generated search page template
+	if err := loadSearchPageTemplate(); err != nil {
+		log.Fatal("Error loading search page template:", err)
+	}
+
 	// Load search index
 	if err := loadSearchIndex(); err != nil {
 		log.Printf("Warning: Could not load search index: %v", err)
@@ -78,6 +85,15 @@ func main() {
 
 	log.Println("Go server starting on :3000")
 	log.Fatal(http.ListenAndServe(":3000", nil))
+}
+
+func loadSearchPageTemplate() error {
+	data, err := os.ReadFile("/app/search-template.html")
+	if err != nil {
+		return err
+	}
+	searchPageTemplate = string(data)
+	return nil
 }
 
 func loadSearchIndex() error {
@@ -105,21 +121,51 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	data := struct {
-		Query   string
-		Results []Page
-		Count   int
-	}{
-		Query:   query,
-		Results: results,
-		Count:   len(results),
+	// Generate results HTML
+	var resultsHTML string
+	if query == "" {
+		resultsHTML = `<div class="empty-state" style="text-align: center; padding: 2rem; color: #999;">
+			<p>Enter a search query above to find tutorials, posts, and resources.</p>
+		</div>`
+	} else if len(results) == 0 {
+		resultsHTML = `<div class="no-results" style="text-align: center; padding: 2rem; color: #999;">
+			<p>No results found for "` + template.HTMLEscapeString(query) + `"</p>
+			<p>Try different keywords or check your spelling.</p>
+		</div>`
+	} else {
+		resultsHTML = `<div class="results-info" style="margin-bottom: 1rem; color: #999;">
+			Found ` + fmt.Sprintf("%d", len(results)) + ` result`
+		if len(results) != 1 {
+			resultsHTML += "s"
+		}
+		resultsHTML += ` for "` + template.HTMLEscapeString(query) + `"
+		</div>`
+
+		for _, result := range results {
+			excerpt := result.Content
+			if len(excerpt) > 300 {
+				excerpt = excerpt[:300] + "..."
+			}
+
+			resultsHTML += `<div class="result" style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 4px;">
+				<h2 style="margin-top: 0;"><a href="` + template.HTMLEscapeString(result.URL) + `">` + template.HTMLEscapeString(result.Title) + `</a></h2>`
+
+			if result.Section != "" {
+				resultsHTML += `<div class="result-section" style="color: #999; font-size: 0.9em; margin-bottom: 0.5rem; text-transform: capitalize;">` + template.HTMLEscapeString(result.Section) + `</div>`
+			}
+
+			resultsHTML += `<div class="result-excerpt" style="color: #ccc;">` + template.HTMLEscapeString(excerpt) + `</div>
+			</div>`
+		}
 	}
 
+	// Replace placeholders in template
+	page := searchPageTemplate
+	page = strings.ReplaceAll(page, "__SEARCH_QUERY__", template.HTMLEscapeString(query))
+	page = strings.ReplaceAll(page, "__SEARCH_RESULTS__", resultsHTML)
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := templates.ExecuteTemplate(w, "search.html", data); err != nil {
-		log.Printf("Error rendering search template: %v", err)
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
-	}
+	w.Write([]byte(page))
 }
 
 func handleLatestVideos(w http.ResponseWriter, r *http.Request) {

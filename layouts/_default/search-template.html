@@ -1,0 +1,24 @@
+{{ define "main" }}
+<article>
+    <h1>Search</h1>
+
+    <form method="GET" action="/search" class="search-form" style="margin-bottom: 2rem;">
+        <div style="display: flex; gap: 10px;">
+            <input
+                type="text"
+                name="q"
+                value="__SEARCH_QUERY__"
+                placeholder="Search tutorials, posts, and resources..."
+                autofocus
+                required
+                style="flex: 1; padding: 0.5rem; font-size: 1rem;"
+            >
+            <button type="submit" style="padding: 0.5rem 1.5rem; cursor: pointer;">Search</button>
+        </div>
+    </form>
+
+    <div id="search-results">
+        __SEARCH_RESULTS__
+    </div>
+</article>
+{{ end }}

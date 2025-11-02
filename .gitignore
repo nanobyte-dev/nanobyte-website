@@ -1,6 +1,18 @@
-# Hugo generated files
+# All generated files consolidated
+generated/
+
+# Temporary build artifacts (copied from generated/ during build)
+static/diagrams/
+
+# Hugo generated files (old location - shouldn't exist anymore)
 public/
 resources/_gen/
+.hugo_build.lock
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
 
 # OS files
 .DS_Store

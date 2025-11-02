@@ -1,17 +1,34 @@
 # Nanobyte Hugo Site - Dual Build Dockerfile with Go API
 # Builds both modern and legacy versions of the site + Go API server
 
-# Stage 1: Build Hugo site
-FROM hugomods/hugo:exts AS hugo-builder
+# Stage 0: Preprocess diagrams
+FROM python:3.11-alpine AS diagram-preprocessor
 
 WORKDIR /src
 COPY . .
 
+# Install Graphviz and Python dependencies
+RUN apk add --no-cache graphviz
+RUN pip install --no-cache-dir pyyaml
+
+# Preprocess diagrams
+RUN python3 preprocess_diagrams.py
+
+# Stage 1: Build Hugo site
+FROM hugomods/hugo:exts AS hugo-builder
+
+WORKDIR /src
+COPY --from=diagram-preprocessor /src /src
+
+# Copy diagrams to static directory for Hugo
+RUN mkdir -p static/diagrams && \
+    cp -r generated/diagrams/* static/diagrams/ 2>/dev/null || true
+
 # Build modern version (with server-side LaTeX rendering via Hugo's transform.ToMath)
-RUN hugo --config config.toml --destination public/modern
+RUN hugo --config config.toml --contentDir generated/content --destination generated/public/modern
 
 # Build legacy version (with server-side LaTeX rendering via Hugo's transform.ToMath)
-RUN hugo --config config-legacy.toml --destination public/legacy
+RUN hugo --config config-legacy.toml --contentDir generated/content --destination generated/public/legacy
 
 # Stage 2: Build Go server
 FROM golang:1.21-alpine AS go-builder
@@ -32,15 +49,15 @@ RUN apk add --no-cache supervisor wget
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy built Hugo site from hugo-builder
-COPY --from=hugo-builder /src/public /usr/share/nginx/html
+COPY --from=hugo-builder /src/generated/public /usr/share/nginx/html
 
 # Copy Go server binary and templates from go-builder
 COPY --from=go-builder /build/server /app/server
 COPY --from=go-builder /build/templates /app/templates
 
 # Copy search index and template to Go server location
-COPY --from=hugo-builder /src/public/modern/index.json /app/search-index.json
-COPY --from=hugo-builder /src/public/modern/search-template.html /app/search-template.html
+COPY --from=hugo-builder /src/generated/public/modern/index.json /app/search-index.json
+COPY --from=hugo-builder /src/generated/public/modern/search-template.html /app/search-template.html
 
 # Create supervisord configuration
 RUN echo '[supervisord]' > /etc/supervisord.conf && \

@@ -1,0 +1,99 @@
+# Graphviz Diagram Configuration
+# This file controls the styling and generation of diagrams from ```dot code blocks
+
+# Theme colors (matching the Nanobyte site dark mode theme)
+theme:
+  # Background colors
+  background: "#2d2842"           # Main diagram background
+  node_fill: "#1e1a2d"           # Default node fill color
+  node_stroke: "#4e348a"         # Default node border color
+
+  # Text colors
+  text_color: "#eee"             # Default text color
+  accent_color: "#F0A9B8"        # Accent color for highlights/links
+
+  # Edge/arrow colors
+  edge_color: "#F0A9B8"          # Default edge color
+
+  # Other colors
+  border_color: "#333333"        # General border color
+
+# Typography
+fonts:
+  # Font family to use for diagram text
+  # Falls back to system fonts if specified font not available
+  node_font: "Inter"             # Font for node labels
+  edge_font: "Inter"             # Font for edge labels
+  graph_font: "Arimo"            # Font for graph title/labels
+
+  # Font sizes (in points)
+  node_fontsize: 11
+  edge_fontsize: 10
+  graph_fontsize: 12
+
+# Graph styling defaults
+graph:
+  # Background color for the entire graph
+  bgcolor: "transparent"         # Use transparent to inherit from page
+
+  # DPI for rendering (72 is standard to avoid scaling transforms)
+  dpi: 72
+
+  # Default graph attributes
+  attributes:
+    rankdir: "TB"                # Direction: TB (top-bottom), LR (left-right), etc.
+    ranksep: "0.3"              # Separation between ranks
+    nodesep: "0.25"             # Separation between nodes
+    pad: "0.05"                 # Padding around graph
+
+# Node styling defaults
+node:
+  # Default shape (box, circle, ellipse, etc.)
+  shape: "box"
+
+  # Style (filled, rounded, solid, dashed, etc.)
+  style: "rounded,filled"
+
+  # Default size constraints
+  width: "0"                     # 0 = auto-size to fit label
+  height: "0"                    # 0 = auto-size to fit label
+
+  # Margins around text inside nodes
+  margin: "0.10,0.05"           # horizontal,vertical padding
+
+  # Border width
+  penwidth: "1.0"
+
+# Edge styling defaults
+edge:
+  # Arrow style (normal, vee, dot, none, etc.)
+  arrowhead: "vee"
+
+  # Line width
+  penwidth: "1.0"
+
+  # Line style (solid, dashed, dotted, etc.)
+  style: "solid"
+
+# Output settings
+output:
+  # Format (svg recommended for web)
+  format: "svg"
+
+  # Whether to embed fonts in SVG
+  embed_fonts: false
+
+  # Whether to include XML declaration in SVG
+  xml_declaration: true
+
+# Processing options
+processing:
+  # Whether to cache generated diagrams (based on content hash)
+  cache: true
+
+  # Whether to always regenerate even if cached version exists
+  # Set to true to ensure config changes are always applied
+  force_regenerate: true
+
+  # Whether to show verbose output during processing
+  verbose: false

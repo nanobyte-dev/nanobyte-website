@@ -70,6 +70,22 @@
     margin: .2em auto;
 }
 
+/* diagrams - responsive sizing */
+.nb .page img[src*="/diagrams/"] {
+    max-width: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    display: block;
+    margin: 1.5rem auto;
+}
+
+/* For embedded SVG diagrams if they're inlined */
+.nb .page svg[width][height] {
+    max-width: 100% !important;
+    width: auto !important;
+    height: auto !important;
+}
+
 
 /*____________ tables ____________*/
 
@@ -586,5 +602,31 @@ h6 code {
     padding: 0.5em;
     font-family: monospace;
     background-color: rgba(240, 169, 184, 0.1);
+}
+
+/*____________ External links ____________*/
+
+/* External link styling */
+.page a.external-link {
+    color: #F0A9B8;
+}
+
+.page a.external-link:hover {
+    text-decoration: underline;
+}
+
+/* External link icon (square with arrow) after external links */
+.page a.external-link::after {
+    content: "";
+    display: inline-block;
+    width: 0.65em;
+    height: 0.65em;
+    margin-left: 0.15em;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23F0A9B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 3H3v10h10v-3'/%3E%3Cpath d='M9 2h5v5'/%3E%3Cpath d='M14 2L7 9'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: super;
+    opacity: 0.8;
+    font-size: 0.75em;
 }
 

@@ -34,40 +34,40 @@ echo "Target: ${DEPLOY_TARGET}:${DEPLOY_PATH}"
 echo ""
 
 # Build Docker image locally
-echo "→ Building Docker image..."
+echo "[1/4] Building Docker image..."
 docker build -t "${IMAGE_NAME}" .
 
-echo "✓ Build complete"
+echo "      Build complete"
 echo ""
 
 # Transfer image to server via SSH pipe
-echo "→ Transferring image to server..."
-echo "  (This may take a few minutes...)"
+echo "[2/4] Transferring image to server..."
+echo "      (This may take a few minutes...)"
 docker save "${IMAGE_NAME}" | ssh "${DEPLOY_TARGET}" docker load
 
-echo "✓ Image transferred"
+echo "      Image transferred"
 echo ""
 
 # Copy docker-compose.prod.yml to server
-echo "→ Copying docker-compose configuration to server..."
+echo "[3/4] Copying docker-compose configuration to server..."
 ssh "${DEPLOY_TARGET}" "mkdir -p ${DEPLOY_PATH}"
 scp docker-compose.prod.yml "${DEPLOY_TARGET}:${DEPLOY_PATH}/docker-compose.yml"
 
-echo "✓ Configuration copied"
+echo "      Configuration copied"
 echo ""
 
 # SSH to server and restart container
-echo "→ Restarting container on server..."
+echo "[4/4] Restarting container on server..."
 ssh "${DEPLOY_TARGET}" "cd ${DEPLOY_PATH} && \
     export DOCKER_IMAGE=${IMAGE_NAME} && \
     docker compose down && \
     docker compose up -d"
 
-echo "✓ Container restarted"
+echo "      Container restarted"
 echo ""
 
 # Show container status
-echo "→ Checking container status..."
+echo "Checking container status..."
 ssh "${DEPLOY_TARGET}" "cd ${DEPLOY_PATH} && docker compose ps"
 
 echo ""

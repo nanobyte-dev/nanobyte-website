@@ -1,5 +1,6 @@
 ---
-title: "Part 2: The x86 boot process"
+title: "Part X (Draft): The x86 boot process"
+draft: true
 ---
 
 The x86 platform has evolved a lot over the years. One of the most important aspects of x86 is backwards compatibility, a modern x86 system must be able to run software that was written 5, or 10, or 20 years ago without a hitch. As a consequence, changes have often been done in a way that _adds_ functionality without removing or altering any prior functionality. In other words, x86 is messy, filled with deprecated ideas and technologies. The boot process is no exception.

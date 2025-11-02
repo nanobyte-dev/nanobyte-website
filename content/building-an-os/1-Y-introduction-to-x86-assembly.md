@@ -1,5 +1,6 @@
 ---
-title: "Part 3: Introduction to x86 assembly"
+title: "Part X (Draft): Introduction to x86 assembly"
+draft: true
 ---
 
 _Assembly_ is a class of low level programming languages in which instructions map directly to machine code instructions that the CPU can understand. In other words, an assembly language is the human readable equivalent of machine code.

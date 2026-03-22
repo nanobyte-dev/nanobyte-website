@@ -9,6 +9,26 @@
 	text-align: left;
 }
 
+.page p,
+.page li,
+.page dd {
+    line-height: 1.7;
+}
+
+.page > h2 {
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid rgba(78, 52, 138, 0.5);
+    margin-bottom: 1rem;
+}
+
+.home-intro {
+    font-size: 1.05em;
+    color: #ddd;
+    max-width: 48rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+
 .nb .page li {
 	margin-bottom: .5rem;
 }
@@ -97,10 +117,10 @@
     min-width: 50%;
 }
 .nb table.inline tr:hover td {
-    background-color: #1e1a2d;
+    background-color: #13101e;
 }
 .nb table.inline tr:hover th {
-    background-color: #333;
+    background-color: #222038;
 }
 
 
@@ -118,8 +138,8 @@
 
 .nb dl.code dt,
 .nb dl.file dt {
-    background-color: #1e1a2d;
-    border: solid #333;
+    background-color: #13101e;
+    border: solid #222038;
     border-width: 1px 1px 0;
     color: inherit;
     display: inline;
@@ -144,16 +164,16 @@
 .nb pre.file,
 .nb dl.file pre,
 .nb dl.file dt {
-    border-color: #eee;
+    border-color: #e5e3e8;
 }
 
 
 /*____________ JS popup ____________*/
 
 .JSpopup {
-    background-color: #1e1a2d;
-    color: #ccc;
-    border: 1px solid #333;
+    background-color: #13101e;
+    color: #c8c5cd;
+    border: 1px solid #222038;
     line-height: 1.2;
     padding: 0 .2em;
 }
@@ -169,16 +189,18 @@
 
 /* Table of Contents */
 #toc {
-    background: #2d2842;
+    background: #222038;
     border-radius: 0.5rem;
-    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    padding: 1.25rem 1.5rem;
     margin: 1.5rem 0;
 }
 
 #toc h2 {
     margin-top: 0;
     font-size: 1.2rem;
-    color: #F0A9B8;
+    color: #ac7dcd;
 }
 
 #toc ul {
@@ -196,7 +218,7 @@
 }
 
 #toc a {
-    color: #eee;
+    color: #e5e3e8;
     text-decoration: none;
 }
 
@@ -228,7 +250,7 @@
 .breadcrumbs li:not(:last-child)::after {
     content: "›";
     margin-left: 0.5rem;
-    color: #666;
+    color: #7e7888;
 }
 
 .breadcrumbs a {
@@ -241,7 +263,7 @@
 }
 
 .breadcrumbs li.active {
-    color: #ccc;
+    color: #c8c5cd;
 }
 
 /* Sitemap */
@@ -255,7 +277,7 @@
 
 .sitemap-section h2 {
     color: #F0A9B8;
-    border-bottom: 2px solid #4e348a;
+    border-bottom: 2px solid rgba(172, 125, 205, 0.3);
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
 }
@@ -279,7 +301,7 @@
 }
 
 .sitemap-section li a {
-    color: #eee;
+    color: #e5e3e8;
     text-decoration: none;
 }
 
@@ -295,7 +317,7 @@
 
 .page-list h2 {
     color: #F0A9B8;
-    border-bottom: 2px solid #4e348a;
+    border-bottom: 2px solid rgba(172, 125, 205, 0.3);
     padding-bottom: 0.5rem;
     margin-bottom: 1.5rem;
 }
@@ -308,14 +330,18 @@
 .article-list li {
     margin-bottom: 2rem;
     padding: 1.5rem;
-    background: #2d2842;
-    border-left: 4px solid #4e348a;
-    border-radius: 0.25rem;
-    transition: border-left-color 0.2s;
+    background: #222038;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: 4px solid #ac7dcd;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: border-left-color 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 
 .article-list li:hover {
     border-left-color: #F0A9B8;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
 }
 
 .article-list a {
@@ -333,7 +359,7 @@
 
 .article-summary {
     display: block;
-    color: #ccc;
+    color: #c8c5cd;
     line-height: 1.6;
 }
 
@@ -353,13 +379,15 @@
     color: #F0A9B8;
     text-decoration: none;
     padding: 0.5rem 1rem;
-    background: #2d2842;
-    border-radius: 0.25rem;
-    transition: background 0.2s;
+    background: #222038;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: background 0.2s, transform 0.15s;
 }
 
 .pagination a:hover {
     background: #4e348a;
+    transform: translateY(-1px);
 }
 
 .pagination .prev {
@@ -375,7 +403,7 @@
     text-align: center;
     margin-top: 2rem;
     padding-top: 2rem;
-    border-top: 1px solid #252035;
+    border-top: 1px solid #222038;
 }
 
 .back-to-top {
@@ -397,9 +425,9 @@ dl.file {
 
 dl.code dt,
 dl.file dt {
-    background-color: #15121F;
+    background-color: #0d0b14;
     border-radius: 0.5rem 0.5rem 0 0;
-    color: #ccc;
+    color: #c8c5cd;
     display: inline-block;
     padding: 0.3em 0.5em;
     margin-left: 0;
@@ -425,15 +453,15 @@ samp,
 kbd {
     font-family: "Cascadia Code", Consolas, "Andale Mono WT", "Andale Mono", "Bitstream Vera Sans Mono", "Nimbus Mono L", Monaco, "Courier New", monospace;
     font-size: 1em;
-    background-color: #15121F;
-    color: #ccc;
+    background-color: #0d0b14;
+    color: #c8c5cd;
     direction: ltr;
     text-align: left;
 }
 
 pre {
     margin: 0.5rem 2rem 1rem 2rem;
-    border: 1px solid #333;
+    border: 1px solid #222038;
     border-radius: 0.5rem;
     padding: 0.5em 1em;
     overflow-x: auto;
@@ -452,9 +480,11 @@ h3 code,
 h4 code,
 h5 code,
 h6 code {
-    background-color: #15121F;
+    background-color: #0d0b14;
     padding: 0.1em 0.3em;
     border-radius: 0.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.88em;
 }
 
 /* Remove padding for code inside syntax highlighted blocks */
@@ -467,10 +497,12 @@ h6 code {
 .highlight {
     margin: 0.5rem 2rem 1rem 2rem;
     border-radius: 0.5rem;
-    background-color: #15121F;
+    background-color: #0d0b14;
     overflow-x: auto;
     overflow-y: visible;
     max-width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .highlight pre {
@@ -483,7 +515,7 @@ h6 code {
 
 /* Override Chroma's background */
 .chroma {
-    background-color: #15121F;
+    background-color: #0d0b14;
 }
 
 /* Line numbers table - remove all borders and fix alignment */
@@ -538,15 +570,17 @@ h6 code {
 /*____________ WIP notice banner ____________*/
 
 .wip-notice {
-    background: #2d2842;
+    background: #222038;
+    border: 1px solid rgba(240, 169, 184, 0.15);
     border-left: 4px solid #F0A9B8;
     padding: 1rem 1.5rem;
     margin: 1.5rem 0;
     border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .wip-notice strong {
-    color: #F0A9B8;
+    color: #ac7dcd;
     display: block;
     margin-bottom: 0.5rem;
     font-size: 1.1em;
@@ -554,7 +588,7 @@ h6 code {
 
 .wip-notice p {
     margin: 0;
-    color: #ccc;
+    color: #c8c5cd;
 }
 
 .wip-notice p:last-child {
@@ -614,6 +648,62 @@ h6 code {
 .page a.external-link:hover {
     text-decoration: underline;
 }
+
+/*____________ Video grid ____________*/
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0 2rem;
+}
+
+.video-card {
+    background: #222038;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.video-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    border-color: rgba(240, 169, 184, 0.2);
+}
+
+.video-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-size: cover;
+}
+
+.video-info {
+    padding: 0.75rem 1rem 1rem;
+}
+
+.video-info h4 {
+    margin: 0 0 0.25rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    font-weight: 600;
+    color: #e5e3e8;
+}
+
+.video-info h4 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.video-card:hover .video-info h4 a {
+    color: #F0A9B8;
+}
+
+.video-date {
+    font-size: 0.75rem;
+    color: #888;
+}
+
 
 /* External link icon (square with arrow) after external links */
 .page a.external-link::after {

@@ -30,16 +30,15 @@ html {
 }
 html,
 body {
-    background-color: #4e348a;
-    color: #ccc;
+    background-color: #221530;
+    color: #c8c5cd;
     margin: 0;
     padding: 0;
 }
 body {
-    font: normal 100%/1.4 "Inter", "Myriad Pro", Myriad, "Nimbus Sans L", Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    /* default font size: 100% => 16px; 93.75% => 15px; 87.5% => 14px; 81.25% => 13px; 75% => 12px */
+    font: normal 100%/1.65 "Inter", "Myriad Pro", Myriad, "Nimbus Sans L", Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
     -webkit-text-size-adjust: 100%;
-	font-size: 11pt;
+	font-size: 11.25pt;
 }
 
 
@@ -53,7 +52,7 @@ h5,
 h6 {
     font-family: Arimo, Utopia, Lucidabright, Lucida, Georgia, "Nimbus Roman No9 L", serif;
     font-weight: bold;
-    color: #eee;
+    color: #e5e3e8;
     background-color: inherit;
     padding: 0;
     line-height: 1.2;
@@ -69,16 +68,17 @@ h6 {
 }
 
 h1 {
-    font-size: 2.25em;
+    font-size: 2em;
     margin: 0 0 0.444em;
+    letter-spacing: -0.02em;
 }
 h2 {
-    font-size: 1.5em;
-    margin: 0 0 0.666em;
+    font-size: 1.4em;
+    margin: 2rem 0 0.666em;
 }
 h3 {
-    font-size: 1.125em;
-    margin: 0 0 0.888em;
+    font-size: 1.15em;
+    margin: 1.5rem 0 0.888em;
 }
 h4 {
     font-size: 1em;
@@ -196,7 +196,7 @@ table {
     border-collapse: collapse;
     empty-cells: show;
     border-spacing: 0;
-    border: 1px solid #333;
+    border: 1px solid #222038;
 }
 
 caption {
@@ -212,11 +212,11 @@ td {
     padding: .3em .5em;
     margin: 0;
     vertical-align: top;
-    border: 1px solid #333;
+    border: 1px solid #222038;
 }
 th {
     font-weight: bold;
-    background-color: #1e1a2d;
+    background-color: #0d0b14;
     color: inherit;
     text-align: left;
 }
@@ -233,6 +233,7 @@ a:link,
 a:visited {
     text-decoration: none;
     color: #F0A9B8;
+    transition: color 0.15s;
 }
 a:link:hover,
 a:visited:hover,
@@ -321,14 +322,14 @@ kbd {
     font-family: "Cascadia Code", Consolas, "Andale Mono WT", "Andale Mono", "Bitstream Vera Sans Mono", "Nimbus Mono L", Monaco, "Courier New", monospace;
     /* same font stack should be used for ".nb table.diff td" in _diff.css */
     font-size: 1em;
-    background-color: #1e1a2d;
-    color: #ccc;
+    background-color: #0d0b14;
+    color: #c8c5cd;
     direction: ltr;
     text-align: left;
 }
 pre {
 	margin: .5rem 2rem 1rem 2rem;
-    border: 1px solid #333;
+    border: 1px solid #222038;
     padding: 0 .2em;
     overflow: auto;
     word-wrap: normal;
@@ -336,7 +337,7 @@ pre {
 
 blockquote {
     padding: 0 .5em;
-    border: solid #333;
+    border: solid #ac7dcd;
     border-width: 0 0 0 .25em;
 }
 [dir=rtl] blockquote {
@@ -378,7 +379,7 @@ form {
 fieldset {
     padding: .7em 1em 0;
     padding: .7rem 1rem; /* for those browsers understanding :last-child */
-    border: 1px solid #999;
+    border: 1px solid #222038;
 }
 fieldset > :last-child {
     margin-bottom: 0;
@@ -474,4 +475,25 @@ optgroup {
 option {
     font-style: normal;
     font-weight: normal;
+}
+
+
+/*____________ scrollbar ____________*/
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #221530;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2d2842;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3d3660;
 }

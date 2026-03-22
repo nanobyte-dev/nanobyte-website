@@ -48,13 +48,13 @@ jobs:
             "cd ${{ secrets.DEPLOY_PATH }} && \
              docker compose down --remove-orphans || true"
 
-      - name: Copy docker-compose configuration
-        run: |
-          scp -i ~/.ssh/deploy_key \
-            -P ${{ secrets.DEPLOY_PORT }} \
-            -o StrictHostKeyChecking=no \
-            docker-compose.prod.yml \
-            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}/docker-compose.yml
+      #- name: Copy docker-compose configuration
+      #  run: |
+      #    scp -i ~/.ssh/deploy_key \
+      #      -P ${{ secrets.DEPLOY_PORT }} \
+      #      -o StrictHostKeyChecking=no \
+      #      docker-compose.prod.yml \
+      #      ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}/docker-compose.yml
 
       - name: Deploy on server
         run: |

@@ -1,79 +1,87 @@
 name: Build and Deploy
 
+# Deploy targets (both live on the OVH box, behind the nanobyte main-proxy):
+#   test.nanobyte.dev  <- AUTOMATIC on every push to main       (job: test)
+#   nanobyte.dev       <- MANUAL "Run workflow" (workflow_dispatch) AND gated by the
+#                         `production` environment's required reviewer  (job: prod)
+#
+# Both jobs use the same deploy mechanics (build image -> save|ssh docker load ->
+# docker compose up on the server). They differ only in image tag + which
+# environment's secrets they read (DEPLOY_PATH points at the test vs prod compose dir).
+#
+# Required secrets:
+#   Repo-level (shared):  SSH_PRIVATE_KEY, DEPLOY_HOST, DEPLOY_PORT, DEPLOY_USER
+#   Environment `test`:        DEPLOY_PATH = /data/nanobyte/NanobyteSiteTest
+#   Environment `production`:  DEPLOY_PATH = /data/nanobyte/NanobyteSite
+
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:  # Allow manual trigger
+    branches: [main]
+  workflow_dispatch:  # manual trigger — used for a production release
 
 jobs:
-  deploy:
+  test:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     environment:
-      name: production
-      url: https://nanobyte.dev
-
+      name: test
+      url: https://test.nanobyte.dev
+    env:
+      IMAGE: nanobyte-site:test
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build Docker image
-        run: docker build -t nanobyte-site:latest .
-
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build image
+        run: docker build -t "$IMAGE" .
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p ${{ secrets.DEPLOY_PORT }} -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Transfer Docker image to server
+      - name: Transfer image to server
         run: |
-          docker save nanobyte-site:latest | \
-          ssh -i ~/.ssh/deploy_key \
-            -p ${{ secrets.DEPLOY_PORT }} \
-            -o StrictHostKeyChecking=no \
-            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
-            docker load
-
-      - name: Stop and remove existing containers
+          docker save "$IMAGE" | ssh -i ~/.ssh/deploy_key -p ${{ secrets.DEPLOY_PORT }} \
+            -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} docker load
+      - name: Deploy
         run: |
-          ssh -i ~/.ssh/deploy_key \
-            -p ${{ secrets.DEPLOY_PORT }} \
-            -o StrictHostKeyChecking=no \
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.DEPLOY_PORT }} -o StrictHostKeyChecking=no \
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
-            "cd ${{ secrets.DEPLOY_PATH }} && \
-             docker compose down --remove-orphans || true"
+            "cd ${{ secrets.DEPLOY_PATH }} && export DOCKER_IMAGE=$IMAGE && \
+             docker compose up -d --force-recreate --remove-orphans && docker compose ps"
+      - name: Clean up SSH key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
 
-      #- name: Copy docker-compose configuration
-      #  run: |
-      #    scp -i ~/.ssh/deploy_key \
-      #      -P ${{ secrets.DEPLOY_PORT }} \
-      #      -o StrictHostKeyChecking=no \
-      #      docker-compose.prod.yml \
-      #      ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}/docker-compose.yml
-
-      - name: Deploy on server
+  prod:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://nanobyte.dev
+    env:
+      IMAGE: nanobyte-site:latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build image
+        run: docker build -t "$IMAGE" .
+      - name: Set up SSH
         run: |
-          ssh -i ~/.ssh/deploy_key \
-            -p ${{ secrets.DEPLOY_PORT }} \
-            -o StrictHostKeyChecking=no \
-            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
-            "cd ${{ secrets.DEPLOY_PATH }} && \
-             export DOCKER_IMAGE=nanobyte-site:latest && \
-             docker compose up -d"
-
-      - name: Verify deployment
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p ${{ secrets.DEPLOY_PORT }} -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
+      - name: Transfer image to server
         run: |
-          ssh -i ~/.ssh/deploy_key \
-            -p ${{ secrets.DEPLOY_PORT }} \
-            -o StrictHostKeyChecking=no \
+          docker save "$IMAGE" | ssh -i ~/.ssh/deploy_key -p ${{ secrets.DEPLOY_PORT }} \
+            -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} docker load
+      - name: Deploy
+        run: |
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.DEPLOY_PORT }} -o StrictHostKeyChecking=no \
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
-            "cd ${{ secrets.DEPLOY_PATH }} && docker compose ps"
-
+            "cd ${{ secrets.DEPLOY_PATH }} && export DOCKER_IMAGE=$IMAGE && \
+             docker compose up -d --force-recreate --remove-orphans && docker compose ps"
       - name: Clean up SSH key
         if: always()
         run: rm -f ~/.ssh/deploy_key

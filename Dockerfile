@@ -31,7 +31,9 @@ RUN hugo --config config.toml --contentDir generated/content --destination gener
 RUN hugo --config config-legacy.toml --contentDir generated/content --destination generated/public/legacy
 
 # Stage 2: Build Go server
-FROM golang:1.21-alpine AS go-builder
+# Toolchain kept current: the compiled binary embeds the Go stdlib, so an old
+# builder means the image ships known stdlib CVEs even on a fresh rebuild.
+FROM golang:1.26-alpine AS go-builder
 
 WORKDIR /build
 COPY go-server/ .
